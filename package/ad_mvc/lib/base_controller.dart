@@ -61,7 +61,7 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
   /// 当前路由点击后退
   @override
   void onNavigationBackClick() {
-    RouteManager().pop();
+    // RouteManager().pop();
   }
 
   /// 隐藏键盘
@@ -93,13 +93,13 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
 
   /// 获取页面间传递的参数
   T? getArgument<T>(Object key, {T? defaultValue}) {
-    final arguments = RouteManager().currentRoute!.settings.arguments;
-    if (arguments == null) return defaultValue;
-    if (arguments is Map) {
-      final value = arguments[key];
-      if (value == null) return defaultValue;
-      return value;
-    }
+    // final arguments = RouteManager().currentRoute!.settings.arguments;
+    // if (arguments == null) return defaultValue;
+    // if (arguments is Map) {
+    //   final value = arguments[key];
+    //   if (value == null) return defaultValue;
+    //   return value;
+    // }
     return defaultValue;
   }
 }
