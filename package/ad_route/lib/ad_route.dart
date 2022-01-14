@@ -1,7 +1,5 @@
 library ad_route;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'route.dart';
+export 'animation.dart';
+export 'route_state_option.dart';

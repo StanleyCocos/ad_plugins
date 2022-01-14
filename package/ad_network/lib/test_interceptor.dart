@@ -9,6 +9,8 @@ class ApiTestInterceptor extends InterceptorsWrapper {
 
   String get uploadUrl => "/api/history";
 
+  bool get isUpdate => false;
+
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
@@ -44,6 +46,7 @@ class ApiTestInterceptor extends InterceptorsWrapper {
     dynamic responseBody,
   }) {
     if (url.startsWith(baseUrl)) return;
+    if(!isUpdate) return;
 
     // 将header转化为json可解析类型
     Map<String, dynamic> headerMap = {};
