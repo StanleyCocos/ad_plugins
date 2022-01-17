@@ -1,7 +1,11 @@
 library ad_extension;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+
+export 'date_extension.dart';
+export 'double_extension.dart';
+export 'int_extension.dart';
+export 'list_extension.dart';
+export 'log_extension.dart';
+export 'map_extension.dart';
+export 'string_extension.dart';
+export 'widget_extension.dart';

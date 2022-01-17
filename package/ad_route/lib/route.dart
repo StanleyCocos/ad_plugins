@@ -6,104 +6,47 @@ import 'animation.dart';
 
 enum RouteAction { PUSH, REPLACE, POP, REMOVE }
 
-class RouteManager extends NavigatorObserver {
-  /// 工厂模式创建单例
-  factory RouteManager() => _getInstance();
-  static RouteManager? _instance;
 
-  RouteManager._internal();
+extension RouteData on RouteManager {
 
-  static RouteManager _getInstance() {
-    _instance ??= RouteManager._internal();
-    return _instance!;
-  }
-
-  /// 当前路由栈
-  List<Route?> _mRoutes = [];
-
-  /// 当前路由大小
+  /// @title routesSize
+  /// @description 获取所有路由数量
+  /// @return 数量
+  /// @updateTime 2022/1/17 10:00 上午
+  /// @author 10456
   int get routesSize => _mRoutes.length;
 
-  /// 当前路由
+  /// @title routes
+  /// @description 获取当前路由
+  /// @return 路由
+  /// @updateTime 2022/1/17 10:00 上午
+  /// @author 10456
   Route? get currentRoute => _mRoutes[routesSize - 1];
 
-  /// 上个路由
+  /// @title routes
+  /// @description 获取所有路由
+  /// @return 路由数组
+  /// @updateTime 2022/1/17 10:00 上午
+  /// @author 10456
   Route? get previousRoute => routesSize > 1 ? _mRoutes[routesSize - 2] : null;
 
-  /// 上个路由
+  /// @title getRouteByIndex
+  /// @description 获取指定路由
+  /// @param: index 指定下标
+  /// @return Route?
+  /// @updateTime 2022/1/17 9:51 上午
+  /// @author 10456
   Route? getRouteByIndex(int index) {
     if (index < routesSize && index >= 0) return _mRoutes[index];
     return null;
   }
 
-  /// 获取所有路由
-  List<Route?> get routes => _mRoutes;
-
-  List<BaseRouteOption> _option = [];
-  String _homePageType = "";
-  PageTransitionType _type = PageTransitionType.none;
-
-  /// @title init
-  /// @description TODO
-  /// @param: options 路由切换的时候生命周期对象数组
-  /// @param: homeName 首页名称
-  /// @param: type 切换动画
-  /// @return Future
-  /// @updateTime 2022/1/14 5:56 下午
+  /// @title routes
+  /// @description 获取所有路由
+  /// @return 路由数组
+  /// @updateTime 2022/1/17 10:00 上午
   /// @author 10456
-  Future init(
-      {List<BaseRouteOption>? options,
-      String homeName = "",
-      PageTransitionType type = PageTransitionType.none}) async {
-    _option = options ?? [];
-    _homePageType = homeName;
-    _type = type;
-  }
-
-
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didPush(route, previousRoute);
-    _mRoutes.add(route);
-    _option.forEach((e) => e.didPush(route, previousRoute));
-  }
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didPop(route, previousRoute);
-    _mRoutes.remove(route);
-    _option.forEach((e) => e.didPop(route, previousRoute));
-  }
-
-  @override
-  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didRemove(route, previousRoute);
-    _option.forEach((e) => e.didRemove(route, previousRoute));
-  }
-
-  @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    _mRoutes.last = newRoute;
-    _option
-        .forEach((e) => e.didReplace(newRoute: newRoute, oldRoute: oldRoute));
-  }
-
-  @override
-  void didStartUserGesture(
-      Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didStartUserGesture(route, previousRoute);
-    _option.forEach((e) => e.didStartUserGesture(route, previousRoute));
-  }
-
-  @override
-  void didStopUserGesture() {
-    super.didStopUserGesture();
-    _option.forEach((e) => e.didStopUserGesture());
-  }
-}
-
-extension dd on RouteManager {
+  List<Route?> get routes => _mRoutes;
 
   /// @title isCurrentRoute
   /// @description 是否为指定页面
@@ -114,6 +57,28 @@ extension dd on RouteManager {
   bool isCurrentRoute(String pageType) {
     return currentRoute!.settings.name == pageType.toString();
   }
+
+}
+
+extension RouteOption on RouteManager {
+
+  /// @title init
+  /// @description 初始路由管理
+  /// @param: options 路由切换的时候生命周期对象数组
+  /// @param: homeName 首页名称
+  /// @param: type 切换动画
+  /// @return Future
+  /// @updateTime 2022/1/14 5:56 下午
+  /// @author 10456
+  Future init(
+      {List<BaseRouteOption>? options,
+        String homeName = "",
+        PageTransitionType type = PageTransitionType.none}) async {
+    _option = options ?? [];
+    _homePageType = homeName;
+    _type = type;
+  }
+
 
   /// @title routeBuild
   /// @description 创建路由
@@ -255,6 +220,27 @@ extension dd on RouteManager {
     }
   }
 
+
+  /// @title pushPage
+  /// @description 路由切换
+  /// @param: page 页面
+  /// @param: isReplace 是否替换上级页面
+  /// @param: isRemoveUntil 是否删除上级页面
+  /// @param: arguments 路由参数
+  /// @return Future<Object?>
+  /// @updateTime 2022/1/17 9:55 上午
+  /// @author 10456
+  Future<Object?> pushPage(
+      Widget page, {
+        bool isReplace = false,
+        bool isRemoveUntil = false,
+        Object? arguments,
+      }) {
+    Route route = routeBuild(page: page, type: _type, arguments: arguments);
+    return pushRoute(route, isReplace: isReplace, isRemoveUntil: isRemoveUntil);
+  }
+
+
   /// @title push
   /// @description 路由切换
   /// @param: routeName 页面名称
@@ -283,4 +269,70 @@ extension dd on RouteManager {
     }
   }
 
+}
+
+/// @description 路由管理
+/// @return
+/// @updateTime 2022/1/17 9:56 上午
+/// @author 10456
+class RouteManager extends NavigatorObserver {
+
+  /// 工厂模式创建单例
+  factory RouteManager() => _getInstance();
+  static RouteManager? _instance;
+
+  RouteManager._internal();
+
+  static RouteManager _getInstance() {
+    _instance ??= RouteManager._internal();
+    return _instance!;
+  }
+
+  /// 当前路由栈
+  List<Route?> _mRoutes = [];
+
+  List<BaseRouteOption> _option = [];
+  String _homePageType = "";
+  PageTransitionType _type = PageTransitionType.none;
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    _mRoutes.add(route);
+    _option.forEach((e) => e.didPush(route, previousRoute));
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    _mRoutes.remove(route);
+    _option.forEach((e) => e.didPop(route, previousRoute));
+  }
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didRemove(route, previousRoute);
+    _option.forEach((e) => e.didRemove(route, previousRoute));
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    _mRoutes.last = newRoute;
+    _option
+        .forEach((e) => e.didReplace(newRoute: newRoute, oldRoute: oldRoute));
+  }
+
+  @override
+  void didStartUserGesture(
+      Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didStartUserGesture(route, previousRoute);
+    _option.forEach((e) => e.didStartUserGesture(route, previousRoute));
+  }
+
+  @override
+  void didStopUserGesture() {
+    super.didStopUserGesture();
+    _option.forEach((e) => e.didStopUserGesture());
+  }
 }
