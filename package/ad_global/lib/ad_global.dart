@@ -1,7 +1,8 @@
 library ad_global;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'app_info.dart';
+export 'auth_manager.dart';
+export 'global_notification.dart';
+export 'open_manager.dart';
+export 'regex_manager.dart';
+export 'screenshot_manager.dart';

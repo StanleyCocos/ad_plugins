@@ -10,6 +10,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  device_info_plus: 2.1.0
+  package_info_plus: 1.3.0
+  crypto: 3.0.1
+  url_launcher: 6.0.18
+  screenshot_callback:
+    git:
+      url: https://github.com/windows7lake/flutter_screenshot_callback.git
+  flutter_keychain:
+    git:
+      url: https://github.com/StanleyCocos/flutter_keychain.git
 
 dev_dependencies:
   flutter_test:
