@@ -30,7 +30,7 @@ abstract class BaseTableModel {
   bool result = false;
 
   /// @id
-  /// @description 默认主键
+  /// @description 默认主键(需要自己设定到字段map里面)
   /// @return STInt
   /// @updateTime 2021/12/23 10:35 上午
   /// @author 10456
@@ -56,7 +56,9 @@ abstract class BaseTableModel {
       var createSql = "create table if not exists $runtimeType($column);";
       Database? db = await DBManager.getDatabase();
       return await db?.execute(createSql);
-    } catch (e) {}
+    } catch (e) {
+      return e;
+    }
   }
 
   /// @save
@@ -105,9 +107,10 @@ abstract class BaseTableModel {
   /// @author 10456
   Future<int> update({String? where}) async {
     try {
+      where ??= "id = ${id.content}";
       Database? db = await DBManager.getDatabase();
       return (await db?.update("$runtimeType", contentMap,
-          where: where == null ? "id = ${id.content}" : where)) ?? 0;
+          where: where)) ?? 0;
     } catch (e) {
       return 0;
     }
@@ -179,13 +182,43 @@ abstract class BaseTableModel {
         where: where.isNotEmpty ? where : "id=(select last_insert_rowid())",
         columns: columns,
       ) ?? <Map>[];
-      if (data.length <= 0) return null;
+      if (data.isEmpty) return null;
       setRowContent(rowData: data.first as Map<String, Object?>?);
       return this;
     } catch (e) {
       return null;
     }
   }
+
+
+  /// @title many
+  /// @description 获取多条记录
+  /// @param: where 获取条件('id=xxx')
+  /// @return Future<List<BaseTableModel>>
+  /// @updateTime 2022/1/26 11:11 上午
+  /// @author 10456
+  Future<List<T>> many<T extends BaseTableModel>({String where = ""}) async {
+    try {
+      Database? db = await DBManager.getDatabase();
+      List<String> columns = List.from(map.keys);
+      List<Map> data = await db?.query(
+        "$runtimeType",
+        where: where.isNotEmpty ? where : "id=(select last_insert_rowid())",
+        columns: columns,
+      ) ?? <Map>[];
+      if (data.isEmpty) return [];
+      List<T> list = [];
+      data.forEach((element) {
+        var obj = this.copy();
+        obj.setRowContent(rowData: element as Map<String, Object?>?);
+        list.add(obj as T);
+      });
+      return list;
+    } catch (e) {
+      return [];
+    }
+  }
+
 
   /// @title all
   /// @description 获取所有记录
@@ -199,7 +232,7 @@ abstract class BaseTableModel {
       List<Map> maps = await db?.query(
         "$runtimeType",
       ) ?? <Map>[];
-      if (maps.length == 0) return [];
+      if (maps.isEmpty) return [];
       List<T> list = [];
       maps.forEach((element) {
         var obj = this.copy();
@@ -218,9 +251,9 @@ abstract class BaseTableModel {
   /// @updateTime 2021/12/23 10:42 上午
   /// @author 10456
   Map<String, Object?> get json {
-
+    var columnMap = map;
     Map<String, Object?> json = {};
-    map.forEach((key, value) {
+    columnMap.forEach((key, value) {
       json[key] = value.content;
     });
     return json;
@@ -235,9 +268,10 @@ extension DataOption on BaseTableModel {
   * 获取列键值对
   * */
   Map<String, Object?> get contentMap {
-    if (map.length <= 0) return {};
+    var columnMap = map;
+    if (columnMap.isEmpty) return {};
     Map<String, Object?> contents = {};
-    map.forEach((k, v) {
+    columnMap.forEach((k, v) {
       if (v.type == "enum") {
         contents[k] = getEnumContent(v as STEnum);
       } else if (v.type == "set") {
@@ -253,7 +287,7 @@ extension DataOption on BaseTableModel {
   * 转换枚举列数据
   * */
   String getEnumContent(STEnum obj) {
-    if (obj.enumList!.length <= 0 || obj.content == null) return "";
+    if (obj.enumList!.isEmpty || obj.content == null) return "";
     if (obj.content! >= 0 && obj.content! < obj.enumList!.length) {
       return obj.enumList![obj.content!];
     }
@@ -282,10 +316,10 @@ extension DataOption on BaseTableModel {
   * 获取所有列的值
   * */
   String get values {
-    if (map.length <= 0) return "";
+    if (map.isEmpty) return "";
     var value = "";
     map.forEach((k, v) {
-      value += value.length > 0 ? ",$v" : "$v";
+      value += value.isNotEmpty ? ",$v" : "$v";
     });
     return value;
   }
@@ -294,10 +328,10 @@ extension DataOption on BaseTableModel {
   * 获取所有列的名称
   * */
   String get keys {
-    if (map.length <= 0) return "";
+    if (map.isEmpty) return "";
     var key = "";
     map.forEach((k, v) {
-      key += key.length > 0 ? ",$k" : "$k";
+      key += key.isNotEmpty ? ",$k" : k;
     });
     return key;
   }
@@ -306,10 +340,11 @@ extension DataOption on BaseTableModel {
   * 获取整体列的所有声明和属性
   * */
   String get column {
-    if (map.length <= 0) return "";
+    var columnMap = map;
+    if (columnMap.isEmpty) return "";
     var columns = "";
-    map.forEach((k, v) {
-      var temp = columns.length > 0 ? "," : "";
+    columnMap.forEach((k, v) {
+      var temp = columns.isNotEmpty ? "," : "";
       columns += "$temp${ColumnSplitMerge.combine(v, key: k)}";
     });
     return columns;
@@ -319,20 +354,28 @@ extension DataOption on BaseTableModel {
   * 映射模型相应的值
   * */
   void setRowContent({Map<String, Object?>? rowData}) {
-    if (rowData == null || rowData.length <= 0) return;
+    if (rowData == null || rowData.isEmpty) return;
     var temp = map;
     rowData.forEach((key, value) {
       if (temp[key]!.type == "set") {
-        temp[key]!.content =
-            setSetRowContent(temp[key] as STSet, value as String);
+        var setObj = temp[key];
+        if(setObj != null && setObj is STSet){
+          setObj.content = setSetRowContent(temp[key] as STSet, value as String);
+          setObj.content?.forEach((element) {
+            setObj.setValue.add(setObj.setList?[element] ?? "");
+          });
+        }
       } else if (temp[key]!.type == "enum") {
-        temp[key]!.content =
-            setEnumRowContent(temp[key] as STEnum, value as String?);
+        var enumObj = temp[key];
+        if(enumObj != null && enumObj is STEnum){
+          enumObj.content = setEnumRowContent(temp[key] as STEnum, value as String?);
+          enumObj.enumValue = enumObj.enumList?[enumObj.content!] ?? "";
+        }
       } else {
         temp[key]!.content = value;
       }
     });
-    this.result = true;
+    result = true;
   }
 
   /*

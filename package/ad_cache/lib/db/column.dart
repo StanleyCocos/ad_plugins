@@ -27,7 +27,7 @@ abstract class BaseColumn<T> {
 
 
   Map<String, Object> get map => {
-    "type": "$type",
+    "type": type,
     "canNull": "$canNull",
     "primaryKey": "$primaryKey",
     "autoIncrement": "$autoIncrement",
@@ -39,20 +39,15 @@ abstract class BaseColumn<T> {
 class STSet extends BaseColumn<List<int>> {
   /// 枚举
   List<String>? setList = [];
-
+  List<String> setValue = [];
   STSet({
     this.setList,
     bool canNull = true,
     String? defaultValue,
-    bool primaryKey = false,
-    bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "set",
     canNull: canNull,
     defaultValue: defaultValue,
-    primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
@@ -60,20 +55,15 @@ class STSet extends BaseColumn<List<int>> {
 class STEnum extends BaseColumn<int> {
   /// 枚举
   List<String>? enumList = [];
-
+  String? enumValue;
   STEnum({
     this.enumList,
     bool canNull = true,
     String? defaultValue,
-    bool primaryKey = false,
-    bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "enum",
     canNull: canNull,
     defaultValue: defaultValue,
-    primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
@@ -85,13 +75,11 @@ class STText extends BaseColumn<String> {
     String? defaultValue,
     bool primaryKey = false,
     bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "text",
     canNull: canNull,
     defaultValue: defaultValue,
     primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
@@ -106,8 +94,6 @@ class STDatetime extends BaseColumn<String> {
     type: "datetime",
     canNull: canNull,
     defaultValue: defaultValue,
-    primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
@@ -119,13 +105,10 @@ class STTimestamp extends BaseColumn<int> {
     Object? defaultValue,
     bool primaryKey = false,
     bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "timestamp",
     canNull: canNull,
     defaultValue: defaultValue,
-    primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
@@ -137,7 +120,6 @@ class STInt extends BaseColumn<int> {
     Object? defaultValue,
     bool primaryKey = false,
     bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "integer",
     canNull: canNull,
@@ -151,15 +133,10 @@ class STDouble extends BaseColumn<double> {
   STDouble({
     bool canNull = true,
     Object? defaultValue,
-    bool primaryKey = false,
-    bool autoIncrement = false,
-    String comment = "",
   }) : super(
     type: "double",
     canNull: canNull,
     defaultValue: defaultValue,
-    primaryKey: primaryKey,
-    autoIncrement: autoIncrement,
   );
 }
 
