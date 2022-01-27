@@ -188,6 +188,16 @@ class SpManager {
   static bool containsKey(name) {
     if (name is String && name.isEmptyOrNull) return false;
     return _sharedPreferences?.containsKey(_realName(name)) ?? false;
+
+  }
+
+  /// @title clear
+  /// @description 清空缓存
+  /// @return Future<bool>
+  /// @updateTime 2022/1/27 3:17 下午
+  /// @author 10456
+  static Future<bool> clear() async {
+    return await _sharedPreferences?.clear() ?? false;
   }
 
 
