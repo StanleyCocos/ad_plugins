@@ -20,9 +20,6 @@ class AppInfoManager {
   /// 唯一标识
   String get imei => _imei;
 
-  ///设备标识
-  String get identifier => _identifier;
-
   /// 设备系统版本
   String get systemVersion => _systemVersion;
 
@@ -30,7 +27,6 @@ class AppInfoManager {
   String _version = "";
   String _versionCode = "";
   String _imei = "";
-  String _identifier = "";
   String _systemVersion = "";
 
   factory AppInfoManager() => _getInstance();
@@ -72,9 +68,9 @@ class AppInfoManager {
       _imei = await _getImei();
       if (_imei.length <= 10) {
         // 修复之前可能存在字符串 null的imei
-        _identifier = iosInfo.identifierForVendor ?? _imeiBuilder();
-        if(_identifier.length <= 10) _identifier = _imeiBuilder();
-        _imei = _identifier.toLowerCase();
+        _imei = iosInfo.identifierForVendor ?? _imeiBuilder();
+        if(_imei.length <= 10) _imei = _imeiBuilder();
+        _imei = _imei.toLowerCase();
         _setImei(_imei);
       }
       _systemVersion = iosInfo.systemVersion ?? "";
@@ -87,7 +83,7 @@ class AppInfoManager {
       _imei = await _getImei();
       if (_imei.length <= 10) {
         // 修复之前可能存在字符串 null的imei
-        _identifier = androidInfo.androidId ?? "";
+        _imei = androidInfo.androidId ?? "";
         _imei = _generateUUID() ?? _imeiBuilder();
         if(_imei.length <= 10) _imei = _imeiBuilder();
         _imei = _imei.toLowerCase();
@@ -97,8 +93,8 @@ class AppInfoManager {
   }
 
   String? _generateUUID() {
-    if (_identifier.length <= 0) return null;
-    var androidId = Utf8Encoder().convert(_identifier);
+    if (_imei.isEmpty) return null;
+    var androidId = Utf8Encoder().convert(_imei);
     String uuid = md5.convert(androidId).toString();
     if (uuid.length != 32) return null;
     StringBuffer sb = StringBuffer();

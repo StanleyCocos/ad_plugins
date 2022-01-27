@@ -1,4 +1,7 @@
+import 'package:ad_route/animation.dart';
+import 'package:ad_route/route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'base.dart';
 import 'base_model.dart';
@@ -8,9 +11,8 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
     implements
         BaseControllerState,
         BaseControllerLifeCycle,
+        BaseOverrideController<T>,
         BaseControllerCommonMethod {
-  /// 模型 数据提供
-  late T model;
 
   /// 当前页面上下文
   BuildContext? context;
@@ -61,7 +63,7 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
   /// 当前路由点击后退
   @override
   void onNavigationBackClick() {
-    // RouteManager().pop();
+    RouteManager().pop();
   }
 
   /// 隐藏键盘
@@ -78,9 +80,12 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
 
   /// 点击重新请求
   void loadRetry() {}
+}
+
+extension Common on BaseController{
 
   /// 获取页面状态
-  PageStateType switchState() {
+  PageStateType get switchState {
     if (content) return PageStateType.content;
     if (loading) {
       isLoadFirst = false;
@@ -91,15 +96,93 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
     return PageStateType.content;
   }
 
-  /// 获取页面间传递的参数
+  /// @title getArgument
+  /// @description 获取路由参数
+  /// @param: key
+  /// @param: defaultValue 默认值
+  /// @return T?
+  /// @updateTime 2022/1/27 10:24 上午
+  /// @author 10456
   T? getArgument<T>(Object key, {T? defaultValue}) {
-    // final arguments = RouteManager().currentRoute!.settings.arguments;
-    // if (arguments == null) return defaultValue;
-    // if (arguments is Map) {
-    //   final value = arguments[key];
-    //   if (value == null) return defaultValue;
-    //   return value;
-    // }
+    final arguments = RouteManager().currentRoute?.settings.arguments;
+    if (arguments == null) return defaultValue;
+    if (arguments is Map) {
+      final value = arguments[key];
+      if (value == null) return defaultValue;
+      return value;
+    }
     return defaultValue;
   }
+
+
+
+
 }
+
+
+extension Route on BaseController {
+
+  /// @title push
+  /// @description 路由切换页面
+  /// @param: page 页面
+  /// @param: arguments 参数
+  /// @param: isReplace 是否替换当前页面
+  /// @param: type 切换动画类型
+  /// @param: isRemoveUntil  是否删除当前页面
+  /// @return Future<Object?>
+  /// @updateTime 2022/1/27 10:25 上午
+  /// @author 10456
+  Future<Object?> push(
+      Widget page, {
+        Object? arguments,
+        bool isReplace = false,
+        PageTransitionType type = PageTransitionType.right,
+        bool isRemoveUntil = false,
+      }) {
+    return RouteManager().pushPage(
+      page,
+      arguments: arguments,
+      isReplace: isReplace,
+      isRemoveUntil: isRemoveUntil,
+      type: type,
+    );
+  }
+
+  /// @title pop
+  /// @description 返回指定页面(默认返回上级页面)
+  /// @param: type 指定页面
+  /// @param: result 返回参数
+  /// @return void
+  /// @updateTime 2022/1/27 10:26 上午
+  /// @author 10456
+  void pop<T>({type, T? result}) {
+    return RouteManager().pop(type: type, result: result);
+  }
+
+}
+
+
+extension Load on BaseController {
+
+  ///隐藏加载圈
+  void hideLoading() {
+    if (EasyLoading.isShow) {
+      EasyLoading.dismiss();
+    }
+  }
+
+  ///显示加载圈
+  void showLoading({message = '加載中...'}) {
+    if (!EasyLoading.isShow) {
+      EasyLoading.show(status: message);
+    }
+  }
+
+  ///显示提示
+  void toast(String message,
+      {EasyLoadingToastPosition position = EasyLoadingToastPosition.center}) {
+    EasyLoading.showToast(message, toastPosition: position);
+  }
+
+}
+

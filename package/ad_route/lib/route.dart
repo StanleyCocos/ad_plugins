@@ -93,7 +93,7 @@ extension RouteOption on RouteManager {
     PageTransitionType? type,
     Object? arguments,
   }) {
-    type = type == null ? _type : type;
+    type ??= _type;
     switch (type) {
       case PageTransitionType.scale:
         return ScaleRouter<Object>(
@@ -179,7 +179,7 @@ extension RouteOption on RouteManager {
   /// @author 10456
   void pop<T extends Object?>({type, T? result}) {
     if (!navigator!.canPop()) return;
-    if (_mRoutes.length <= 0 || _mRoutes.last!.settings.name == "/") return;
+    if (_mRoutes.isEmpty || _mRoutes.last!.settings.name == "/") return;
     if (type == null) {
       navigator!.pop(result);
     } else {
@@ -235,7 +235,9 @@ extension RouteOption on RouteManager {
         bool isReplace = false,
         bool isRemoveUntil = false,
         Object? arguments,
+        PageTransitionType? type,
       }) {
+    type ??= _type;
     Route route = routeBuild(page: page, type: _type, arguments: arguments);
     return pushRoute(route, isReplace: isReplace, isRemoveUntil: isRemoveUntil);
   }

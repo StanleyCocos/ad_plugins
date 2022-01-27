@@ -1,5 +1,11 @@
 
+import 'package:ad_mvc/base_model.dart';
 import 'package:flutter/material.dart';
+
+import 'base_controller.dart';
+
+
+
 
 /// 页面加载状态类型
 enum PageStateType {
@@ -16,6 +22,17 @@ enum PageStateType {
   content,
 }
 
+/// 控制器
+abstract class BaseOverrideStatePage<T extends BaseController> {
+
+  late T controller;
+}
+
+/// model
+abstract class BaseOverrideController<T extends BaseModel> {
+
+  late T model;
+}
 
 /// 页面加载状态
 abstract class BaseControllerState {

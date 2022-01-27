@@ -1,24 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ToastManager {
   static void show(
     String msg, {
-    Toast length = Toast.LENGTH_SHORT,
-    gravity = ToastGravity.CENTER,
+    EasyLoadingToastPosition position = EasyLoadingToastPosition.center,
   }) {
-    Fluttertoast.cancel();
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: length,
-        gravity: gravity,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.black38,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    EasyLoading.dismiss();
+    EasyLoading.showToast(msg, toastPosition: position, duration: const Duration(seconds: 2));
   }
 
   static void cancel() {
-    Fluttertoast.cancel();
+    EasyLoading.dismiss();
   }
 }
