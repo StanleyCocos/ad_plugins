@@ -1,8 +1,5 @@
-import 'package:ad_route/route_state_option.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ad_route/ad_route.dart';
 import 'package:flutter/material.dart';
-
-import 'animation.dart';
 
 enum RouteAction { PUSH, REPLACE, POP, REMOVE }
 
@@ -73,7 +70,7 @@ extension RouteOption on RouteManager {
   Future init(
       {List<BaseRouteOption>? options,
         String homeName = "",
-        PageTransitionType type = PageTransitionType.none}) async {
+        PageTransitionType type = PageTransitionType.sysDefault}) async {
     _option = options ?? [];
     _homePageType = homeName;
     _type = type;
@@ -89,7 +86,7 @@ extension RouteOption on RouteManager {
   /// @updateTime 2022/1/14 6:02 下午
   /// @author 10456
   Route routeBuild({
-    Widget? page,
+    required Widget page,
     PageTransitionType? type,
     Object? arguments,
   }) {
@@ -165,6 +162,11 @@ extension RouteOption on RouteManager {
             arguments: arguments,
           ),
         );
+      case PageTransitionType.sysDefault:
+          return MaterialPageRoute(builder: (_)=> page, settings: RouteSettings(
+            name: page.runtimeType.toString(),
+            arguments: arguments,
+          ),);
     }
   }
 
@@ -205,18 +207,18 @@ extension RouteOption on RouteManager {
   /// @return Future<Object?>
   /// @updateTime 2022/1/14 6:05 下午
   /// @author 10456
-  Future<Object?> pushRoute(
+  Future<dynamic> pushRoute(
       Route route, {
         bool isReplace = false,
         bool isRemoveUntil = false,
       }) {
     if (isRemoveUntil) {
       return navigator!
-          .pushAndRemoveUntil(route as Route<Object>, (route) => false);
+          .pushAndRemoveUntil(route, (route) => false);
     } else if (isReplace) {
-      return navigator!.pushReplacement(route as Route<Object>);
+      return navigator!.pushReplacement(route);
     } else {
-      return navigator!.push(route as Route<Object>);
+      return navigator!.push(route);
     }
   }
 

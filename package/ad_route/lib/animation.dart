@@ -17,6 +17,8 @@ enum PageTransitionType {
   right,
   // 无动画
   none,
+  // default 系统动画
+  sysDefault
 }
 
 //缩放路由动画
