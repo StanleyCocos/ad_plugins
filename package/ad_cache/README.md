@@ -13,7 +13,7 @@ ad_cache:
 ```
 
 ### 使用
-#### 偏好设置缓存
+#### 一. 偏好设置缓存
 1. 初始
 ```
   await SpManager.init();
@@ -46,3 +46,48 @@ SpManager.remove("name");
 ```
 await SpManager.clear();
 ```
+#### 二. 数据库
+
+1. 初始化
+```
+await DBManager.init();
+```
+
+2. 创建表
+```
+class DBTest extends BaseTableModel
+```
+
+3. 添加表列属性
+```
+/// 添加表格属性
+  @override
+  Map<String, BaseColumn> get map => {
+    "age": age,
+    "name": name,
+    "weight": weight,
+    "timestamp": timestamp,
+    "datetime": datetime,
+    "hobby": hobby,
+    "girlfriend": girlfriend,
+  };
+```
+
+4. 保存数据
+```
+var test1 = DBTest(
+          name: "单条数据",
+          age: 18,
+          weight: 69.7,
+          hobby: [1, 3],
+          girlfriend: 1,
+        );
+await test1.save();
+```
+
+5. 删除数据
+```
+await DBTest().delete(where: "age=18");
+```
+
+
