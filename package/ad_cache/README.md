@@ -44,4 +44,5 @@ SpManager.remove("name");
 
 4. 清空缓存
 ```
+await SpManager.clear();
 ```
