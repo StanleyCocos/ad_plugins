@@ -7,3 +7,13 @@
 4. open_manager 外部功能启动(拨打电话，打开设置等) 未完善
 5. regex_manager 常用正则判断
 6. screenshot_manager 屏幕截屏管理
+
+
+
+### 引入  
+```
+ad_cache:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_cache/
+```
