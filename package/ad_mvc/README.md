@@ -76,5 +76,17 @@ abstract class StateInterface {
 流程图:
 ![有度20220128161920](https://user-images.githubusercontent.com/22318878/151511834-da9b30ad-0f50-4f64-b522-acb8270bd31e.png)
 
-  
-
+三. 常用属性
+| 参数 | 类型 | 说明 | 
+| :-----| :---- | :---- |
+| context | BuildContext | 上下文(页面会自动设定) | 
+| isHideKeyboard | bool | 是否需要控制点击屏幕任意位置隐藏键盘 默认: ture |
+| isLoadFirst | bool | 是否第一次加载(默认: true, 根据可以手动修改) |
+| isLoadError | bool | 是否网络错误, 设置true后 刷新会展示错误页面 |
+| refreshController | EasyRefreshController | 上拉加载下拉属性控制器(BaseListController属性，基于flutter_easyrefresh) | 
+| loadPage | int | 分页 页码 (BaseListController属性，可以初始化调整value)|
+| pageSize | int | 分页数量 (BaseListController属性，可以初始化调整value)|
+| loadApi | String | 分页请求接口(BaseListController属性) |
+| params |  Map<String, dynamic> | 请求参数(BaseListController属性) |
+| data | BaseBean | 请求结果解析器(BaseListController属性) |
+| requestOptions | Options | 请求额外配置参数(BaseListController属性) |
