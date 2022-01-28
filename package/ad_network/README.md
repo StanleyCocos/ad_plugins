@@ -45,3 +45,8 @@ ad_cache:
 ```
  HttpRequest().get("url", params: {}, callBack: (data){});
 ```
+
+2. post 
+```
+ HttpRequest().post("url", params: {}, callBack: (data){});
+```
