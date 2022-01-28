@@ -49,10 +49,8 @@ abstract class StateInterface {
   Color? get backgroundColor;
 }
 ```
-
-### 使用 
 一. 继承 
-  1.  model 
+1.  model 
   ```
   Model extends BaseModel
   ```
@@ -64,8 +62,10 @@ abstract class StateInterface {
   ```
   Controller extends BaseController<Model1>
   ```
+
+### 控制器使用   
   
-二. 控制器显示管理(重写该属性控制展示)
+一. 控制器显示管理(重写该属性控制展示)
 | 属性名 | 类型 | 说明 | 
 | :-----| :---- | :---- |
 | loading | bool | 是否展示加载中 | 
@@ -79,7 +79,7 @@ abstract class StateInterface {
 
 
 
-三. 常用属性
+二. 常用属性
 | 属性名 | 类型 | 说明 | 
 | :-----| :---- | :---- |
 | context | BuildContext | 上下文(页面会自动设定) | 
@@ -97,7 +97,7 @@ abstract class StateInterface {
 
 
 
-四. 常用方法 
+三. 常用方法 
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | widgetDidLoad | 无 | 视图渲染完成调用(只调用一次) | 
@@ -114,7 +114,7 @@ abstract class StateInterface {
 | toast | 显示文本 | 显示Toast |
 
 
-五. 列表控制器常用方法
+四. 列表控制器常用方法
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | loadListData | 无 | 刷新调用 | 
@@ -124,3 +124,22 @@ abstract class StateInterface {
 | loadError | 无 | 请求错误 | 
 | loadCommon | 无 | 请求成功失败都会调用 |
 | addParams | Map<String, dynamic> params | 设定参数 |
+
+
+
+### page使用
+1. 无需重载build方法
+2. 属性介绍
+| 属性名 | 类型 | 说明 | 
+| :-----| :---- | :---- |
+| backgroundColor | Color | 背景颜色 | 
+| extendBodyBehindAppBar | bool | 内容是否置顶 去掉导航栏的高度  |
+| style | SystemUiOverlayStyle | 状态栏颜色 |
+| load | Widget | 加载页面（这里会覆盖初始设定的load Page ） |
+| error | Widget | 错误页面（这里会覆盖初始设定的error Page ） | 
+| empty | Widget | 空页面 （这里会覆盖初始设定的empty Page ）|
+| navigation | Widget | 导航栏（这里会覆盖初始设定的navigation Page ） |
+
+
+
+
