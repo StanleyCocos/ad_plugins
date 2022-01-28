@@ -73,8 +73,11 @@ abstract class StateInterface {
 | empty | bool | 是否显示空页面 |
 | content | bool | 是否展示内容 |
 
+
 流程图:
 ![有度20220128161920](https://user-images.githubusercontent.com/22318878/151511834-da9b30ad-0f50-4f64-b522-acb8270bd31e.png)
+
+
 
 三. 常用属性
 | 属性名 | 类型 | 说明 | 
@@ -92,7 +95,9 @@ abstract class StateInterface {
 | requestOptions | Options | 请求额外配置参数(BaseListController属性) |
 
 
-三. 常用方法
+
+
+三. 常用方法 
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | widgetDidLoad | 无 | 视图渲染完成调用(只调用一次) | 
