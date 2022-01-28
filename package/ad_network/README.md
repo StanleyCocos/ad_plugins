@@ -1,39 +1,47 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## flutter网络请求封装
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+### 简介
+基于dio封装多种请求方式
+支持 post get put patch delete等请求方式
+提供json安全解析功能
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+### 引入  
+```
+ad_cache:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_network/
 ```
 
-## Additional information
+### 初始化
+```
+/// 初始网络请求模块
+  HttpRequest().init(
+    HttpRequestSetting(
+      baseUrl: "",
+      connectTimeOut: 15,
+      receiveTimeOut: 15,
+      /// 请求拦截器
+      interceptors: [
+        MyInterceptors(),
+        LogInterceptor(
+          request: true,
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+          error: true,
+        ),
+      ],
+      /// 错误拦截器
+      errorHandle: MyHttpRequestError(),
+    ),
+  );
+```
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+### 使用
+1. get 
+```
+ HttpRequest().get("url", params: {}, callBack: (data){});
+```
