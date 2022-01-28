@@ -128,8 +128,8 @@ abstract class StateInterface {
 
 
 ### page使用
-1. 无需重载build方法
-2. 属性介绍  
+一. 无需重载build方法
+二. 属性介绍  
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | backgroundColor | Color | 背景颜色 | 
