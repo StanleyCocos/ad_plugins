@@ -16,6 +16,40 @@ ad_cache:
       path: package/ad_mvc/
 ```
 
+### 初始化
+```
+/// 初始化MVC架构
+  MvcManager().init(
+    /// 状态视图拦截器 (加载视图，空视图，错误视图)
+    interceptor: MyStateInterceptor(),
+
+    /// 给列表页上拉加载 下拉刷新使用 后端接口分页数据的key
+    page: "page",
+    pageSize: "size",
+  );
+```
+拦截器统一设定相应的状态页面
+```
+/// 页面状态视图
+abstract class StateInterface {
+
+  /// 错误
+  Widget? error(Function onTap);
+
+  /// 空
+  Widget? empty(Function onTap);
+
+  /// 加载
+  Widget? get load;
+
+  /// 导航栏
+  Widget? get navigation;
+
+  /// 背景颜色
+  Color? get backgroundColor;
+}
+```
+
 ### 使用 
 一. 继承 
   1.  model 
