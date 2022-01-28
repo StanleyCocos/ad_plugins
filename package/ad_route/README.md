@@ -1,39 +1,48 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## flutter 路由管理
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+### 简介
+支持命名路由和创建路由两种方式，同时添加于mvc的控制中
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+### 引入
+```
+ad_cache:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_route/
 ```
 
-## Additional information
+### 初始化
+```
+return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      navigatorObservers: [
+        /// 路由管理初始化
+        RouteManager()
+          ..init(
+            /// 首页名称，防止指定返回的时候 返回到最开始路由
+            homeName: "MyApp",
+            /// 路由生命周期回调
+            options: [RouteOptions()],
+          ),
+      ],
+    );
+```
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+### 使用
+1. push
+```
+RouteManager().pushPage(RoutePage2(), arguments: {"id": 2}).then((value){
+  print("接收下个页面回传的值: $value");
+});
+```
+
+2. pop
+```
+pop(result: "ok");
+```
+
+
