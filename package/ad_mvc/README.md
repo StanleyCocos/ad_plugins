@@ -1,39 +1,44 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## flutter mvc 架构
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+### 简介
+1. 统一风格
+2. 管理状态
+3. 封装常用方法
+4. 封装上拉加载 下拉刷新
+5. 显示管理等
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+### 引入  
+```
+ad_cache:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_mvc/
 ```
 
-## Additional information
+### 使用 
+一. 继承 
+  1.  model 
+  ```
+  Model extends BaseModel
+  ```
+  2. page 
+  ```
+  State extends BasePageState<StatefulWidget, BaseController>
+  ```
+  3. controller
+  ```
+  Controller extends BaseController<Model1>
+  ```
+  
+二. 显示管理
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+| 参数 | 类型 | 说明 | 
+| :-----| :---- | :---- |
+| loading | bool | 是否展示加载中 | 
+| error | bool | 是否展示页面错误 |
+| empty | bool | 是否显示空页面 |
+| content | bool | 是否展示内容 |
+
+  
+
