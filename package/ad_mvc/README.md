@@ -97,7 +97,7 @@ abstract class StateInterface {
 
 
 
-三. 常用方法 
+四. 常用方法 
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | widgetDidLoad | 无 | 视图渲染完成调用(只调用一次) | 
@@ -112,3 +112,15 @@ abstract class StateInterface {
 | hideLoading | 无 | 隐藏load加载弹框 |
 | showLoading | 显示文本 | 显示加载圈 |
 | toast | 显示文本 | 显示Toast |
+
+
+五. 列表控制器常用方法
+| 方法名 | 参数 | 说明 | 
+| :-----| :---- | :---- |
+| loadListData | 无 | 刷新调用 | 
+| loadListDataMore | 无 | 加载调用 |
+| loadBegin | 无 | 加载之前调用(这里可以设定参数) |
+| loadSuccess | 无 | 请求成功 |
+| loadError | 无 | 请求错误 | 
+| loadCommon | 无 | 请求成功失败都会调用 |
+| addParams | Map<String, dynamic> params | 设定参数 |
