@@ -128,7 +128,7 @@ abstract class StateInterface {
 
 
 ### page使用
-一. 无需重载build方法
+一. 无需重载build方法  
 二. 属性介绍  
 | 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
