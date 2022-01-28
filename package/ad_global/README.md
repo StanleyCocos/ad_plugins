@@ -15,5 +15,5 @@
 ad_cache:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
-      path: package/ad_cache/
+      path: package/ad_global/
 ```
