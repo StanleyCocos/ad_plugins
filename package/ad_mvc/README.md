@@ -130,14 +130,14 @@ abstract class StateInterface {
 ### page使用
 1. 无需重载build方法
 2. 属性介绍
-| 属性名 | 类型 | 说明 | 
+| 方法名 | 参数 | 说明 | 
 | :-----| :---- | :---- |
 | backgroundColor | Color | 背景颜色 | 
-| extendBodyBehindAppBar | bool | 内容是否置顶 去掉导航栏的高度  |
+| extendBodyBehindAppBar | bool | 内容是否置顶 去掉导航栏的高度 |
 | style | SystemUiOverlayStyle | 状态栏颜色 |
 | load | Widget | 加载页面（这里会覆盖初始设定的load Page ） |
 | error | Widget | 错误页面（这里会覆盖初始设定的error Page ） | 
-| empty | Widget | 空页面 （这里会覆盖初始设定的empty Page ）|
+| empty | Widget | 空页面 （这里会覆盖初始设定的empty Page ） |
 | navigation | Widget | 导航栏（这里会覆盖初始设定的navigation Page ） |
 
 
