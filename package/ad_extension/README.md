@@ -9,3 +9,12 @@
 6. map扩展
 7. string扩展
 8. widget扩展
+
+
+### 引入  
+```
+ad_cache:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_extension/
+```
