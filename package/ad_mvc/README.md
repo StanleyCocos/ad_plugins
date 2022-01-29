@@ -10,7 +10,7 @@
 
 ### 引入  
 ```
-ad_cache:
+ad_mvc:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_mvc/
