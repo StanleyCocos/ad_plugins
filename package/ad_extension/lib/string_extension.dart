@@ -45,7 +45,7 @@ extension StringOption on String? {
   /*
   * 加千分号
   * */
-  String? get formatNum {
+  String? get thousandSymbol {
     if (isEmptyOrNull) return "";
     List<String> numSub = this!.split(".");
     try {
