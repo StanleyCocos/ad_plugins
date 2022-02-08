@@ -50,7 +50,7 @@ extension StringOption on String? {
     List<String> numSub = this!.split(".");
     try {
       int upValue = int.parse(numSub.first);
-      String value = upValue.formatNum;
+      String value = upValue.thousandSymbol;
       for (var i = 1; i < numSub.length; ++i) {
         var bean = numSub[i];
         if (i == 1) {
