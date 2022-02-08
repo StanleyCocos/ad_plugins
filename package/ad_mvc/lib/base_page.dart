@@ -8,11 +8,11 @@ import 'base_state_widget.dart';
 import 'mvc_manager.dart';
 import 'navigation_bar.dart';
 
-abstract class BaseBodyPage<T extends BaseController> extends StatelessWidget
+abstract class BasePage<T extends BaseController> extends StatelessWidget
     implements PageInterface {
   late T controller;
 
-  BaseBodyPage({Key? key}) : super(key: key);
+  BasePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ abstract class BaseBodyPage<T extends BaseController> extends StatelessWidget
         value: controller,
         child: Consumer<T>(
           builder: (context, controller, _) {
-            return renderLayout();
+            return _renderLayout;
           },
         ),
       ),
@@ -67,14 +67,19 @@ abstract class BaseBodyPage<T extends BaseController> extends StatelessWidget
   Color get backgroundColor =>
       MvcManager().interceptor?.backgroundColor ?? Colors.white;
 
+  bool get extendBodyBehindAppBar => false;
+
+  /// 状态栏颜色
   SystemUiOverlayStyle get style => SystemUiOverlayStyle.dark;
 
-  Widget renderLayout() {
-    return WillPopScope(
-      onWillPop: controller.onWillPop,
-      child: GestureDetector(
-        onTap: controller.onScreenClick,
-        child: body,
+  Widget get _renderLayout {
+    return GestureDetector(
+      onTap: controller.onScreenClick,
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        extendBodyBehindAppBar: extendBodyBehindAppBar,
+        appBar: navigation as PreferredSizeWidget?,
+        body: body,
       ),
     );
   }

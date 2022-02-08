@@ -117,12 +117,6 @@ extension Common on BaseController{
     }
     return defaultValue;
   }
-
-
-  /// 监听物理返回
-  Future<bool> onWillPop() {
-    return Future.value(true);
-  }
 }
 
 
