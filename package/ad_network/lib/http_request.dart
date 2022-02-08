@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'http_request_error.dart';
+import 'http_request_rear_interceptor.dart';
 import 'http_request_setting.dart';
 import 'options_extra.dart';
 
@@ -41,7 +41,7 @@ class HttpRequest {
 
   Dio get client => _client!;
 
-  HttpRequestError? _errorHandle;
+  HttpRequestRearInterceptor? _rearInterceptor;
 
   OptionsExtra? _extra;
 
@@ -54,7 +54,7 @@ class HttpRequest {
       if (setting.dev != null && setting.dev!.isNotEmpty) {
         options.headers[HttpHeaders.cookieHeader] = "dev=${setting.dev};";
       }
-      _errorHandle = setting.errorHandle ?? HttpRequestError();
+      _rearInterceptor = setting.rearInterceptor;
       _extra = setting.extra ?? OptionsExtra();
       options.connectTimeout = setting.connectTimeOut * 1000;
       options.receiveTimeout = setting.receiveTimeOut * 1000;
@@ -376,12 +376,19 @@ class HttpRequest {
       }
 
       commonCallBack?.call();
-      callBack?.call(_resultToMap(response));
+      if(null == _rearInterceptor){
+        callBack?.call(_resultToMap(response));
+      } else {
+        _rearInterceptor?.onRequest(callBack, _resultToMap(response));
+      }
       return true;
     } on DioError catch (e) {
       commonCallBack?.call();
-      // _handleError(errorCallBack, error: e);
-      _errorHandle?.handleError(errorCallBack, e);
+      if(null == _rearInterceptor){
+        errorCallBack?.call(e, e.response?.statusCode ?? 0);
+      } else {
+        _rearInterceptor?.onError(errorCallBack, e);
+      }
       return false;
     }
   }

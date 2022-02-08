@@ -42,7 +42,7 @@ void main() async {
           error: true,
         ),
       ],
-      errorHandle: MyHttpRequestError(),
+      rearInterceptor: MyHttpRequestError(),
     ),
   );
 
