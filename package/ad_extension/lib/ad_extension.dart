@@ -10,3 +10,5 @@ export 'map_extension.dart';
 export 'string_extension.dart';
 export 'widget_extension.dart';
 export 'color_extension.dart';
+
+export 'package:intl/intl.dart';
