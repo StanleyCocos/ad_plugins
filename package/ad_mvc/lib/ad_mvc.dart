@@ -13,3 +13,4 @@ export 'state_interceptor.dart';
 
 export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:flutter_easyrefresh/easy_refresh.dart';
+export 'package:provider/provider.dart';
