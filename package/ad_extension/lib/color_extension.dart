@@ -1,7 +1,7 @@
 import 'package:ad_extension/int_extension.dart';
 import 'package:flutter/material.dart';
 
-extension MyColor on Color {
+extension Colors on Color {
 
   static Color get random => Color.fromRGBO(255.random, 255.random, 255.random, 1);
 
