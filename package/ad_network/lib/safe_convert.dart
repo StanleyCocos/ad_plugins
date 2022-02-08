@@ -12,9 +12,7 @@ int asInt(Map<String, dynamic>? json, String key, {int defaultValue = 0}) {
     if (value is String) return int.tryParse(value) ?? defaultValue;
     return defaultValue;
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key error: $e");
-    }
+    if (kDebugMode)  print("❎❎❎❎ key: $key error: $e");
     return defaultValue;
   }
 }
@@ -30,9 +28,7 @@ double asDouble(Map<String, dynamic>? json, String key, {double defaultValue = 0
     if (value is String) return double.tryParse(value) ?? defaultValue;
     return defaultValue;
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
-    }
+    if (kDebugMode)  print("❎❎❎❎ key: $key  error: $e");
     return defaultValue;
   }
 }
@@ -51,9 +47,7 @@ bool asBool(Map<String, dynamic>? json, String key, {bool defaultValue = false})
     }
     return defaultValue;
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
-    }
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
     return defaultValue;
   }
 }
@@ -69,9 +63,7 @@ String asString(Map<String, dynamic>? json, String key, {String defaultValue = "
     if (value is bool) return value ? "true" : "false";
     return defaultValue;
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
-    }
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
     return defaultValue;
   }
 }
@@ -84,9 +76,7 @@ Map<String, dynamic> asMap(Map<String, dynamic>? json, String key, {Map<String, 
     var value = Map<String, dynamic>.from(tempValue);
     return value;
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
-    }
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
     return defaultValue ?? <String, dynamic>{};
   }
 }
@@ -99,9 +89,7 @@ List asList(Map<String, dynamic>? json, String key, {List? defaultValue}) {
     if (value is List) return value;
     return defaultValue ?? [];
   }catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
-    }
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
     return defaultValue ?? [];
   }
 }
@@ -126,9 +114,33 @@ List<String> asListStr(Map<String, dynamic>? json, String key, {List<String>? de
     }
     return defaultValue ?? [];
   } catch(e){
-    if (kDebugMode) {
-      print("❎❎❎❎ key: $key  error: $e");
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
+    return defaultValue ?? [];
+  }
+}
+
+
+List<int> asListInt(Map<String, dynamic>? json, String key,
+    {List<int>? defaultValue}) {
+  try {
+    if (json == null || !json.containsKey(key)) return defaultValue ?? [];
+    var value = json[key];
+    if (value == null) return defaultValue ?? [];
+    if (value is List) {
+      List<int> list = [];
+      for (var obj in value) {
+        int tempObj = 0;
+        if (value is int) tempObj = obj;
+        if (value is double) tempObj = obj.toInt();
+        if (value is bool) tempObj = obj ? 1 : 0;
+        if (value is String) tempObj = int.tryParse(obj) ?? 0;
+        list.add(tempObj);
+      }
+      return list;
     }
+    return defaultValue ?? [];
+  } catch (e) {
+    if (kDebugMode) print("❎❎❎❎ key: $key  error: $e");
     return defaultValue ?? [];
   }
 }
