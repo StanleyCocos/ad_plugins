@@ -28,11 +28,11 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
   @override
   Widget build(BuildContext context) {
     controller.context = context;
-    return _renderLayout;
+    return renderLayout;
   }
 
   /// 渲染视图
-  Widget get _renderLayout {
+  Widget get renderLayout {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: style,
       child: ChangeNotifierProvider.value(

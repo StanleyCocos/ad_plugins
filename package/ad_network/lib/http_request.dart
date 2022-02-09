@@ -377,11 +377,11 @@ class HttpRequest {
 
       commonCallBack?.call();
       if(null == _rearInterceptor){
-        callBack?.call(_resultToMap(response.data));
+        callBack?.call(_resultToMap(response));
       } else {
-        _rearInterceptor?.onRequest(callBack, _resultToMap(response.data));
+        _rearInterceptor?.onRequest(callBack, _resultToMap(response));
       }
-      return _resultToMap(response.data);
+      return _resultToMap(response);
     } on DioError catch (e) {
       commonCallBack?.call();
       if(null == _rearInterceptor){
@@ -393,7 +393,7 @@ class HttpRequest {
     }
   }
 
-  Map<String, dynamic> _resultToMap(Response? response) {
+  Map<String, dynamic> _resultToMap(Response<dynamic>? response) {
     if (response?.data == null) return {};
     var result = response!.data;
     if (result is Map) return response.data;

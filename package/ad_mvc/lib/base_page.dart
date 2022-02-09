@@ -23,7 +23,7 @@ abstract class BasePage<T extends BaseController> extends StatelessWidget
         value: controller,
         child: Consumer<T>(
           builder: (context, controller, _) {
-            return _renderLayout;
+            return renderLayout;
           },
         ),
       ),
@@ -72,7 +72,7 @@ abstract class BasePage<T extends BaseController> extends StatelessWidget
   /// 状态栏颜色
   SystemUiOverlayStyle get style => SystemUiOverlayStyle.dark;
 
-  Widget get _renderLayout {
+  Widget get renderLayout {
     return GestureDetector(
       onTap: controller.onScreenClick,
       child: Scaffold(
