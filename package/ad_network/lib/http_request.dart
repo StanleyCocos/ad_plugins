@@ -393,9 +393,9 @@ class HttpRequest {
     }
   }
 
-  Map<String, dynamic> _resultToMap(dynamic response) {
-    if (response.data == null) return {};
-    var result = response.data;
+  Map<String, dynamic> _resultToMap(Response? response) {
+    if (response?.data == null) return {};
+    var result = response!.data;
     if (result is Map) return response.data;
     if (result is List) return {"result": result};
     if (result is String) return {"result": result};
