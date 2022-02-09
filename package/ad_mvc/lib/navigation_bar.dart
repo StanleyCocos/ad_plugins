@@ -300,7 +300,7 @@ class _NavigationBarState extends State<NavBar> {
               : IconButton(
                   icon: ImageIcon(
                       AssetImage("assets/icon_arrow_left.png",
-                          package: 'ad_common'),
+                          package: 'ad_mvc'),
                       color: Color(int.parse(0x333333.toString(), radix: 16)),
                       size: 20),
                   onPressed: () {
