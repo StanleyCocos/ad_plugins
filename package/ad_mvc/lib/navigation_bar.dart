@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -285,6 +286,8 @@ class _NavigationBarState extends State<NavBar> {
           opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
     }
 
+
+
     Widget? leading = widget.leading;
     if (leading == null && widget.automaticallyImplyLeading) {
       if (hasDrawer) {
@@ -297,22 +300,29 @@ class _NavigationBarState extends State<NavBar> {
         if (canPop)
           leading = useCloseButton
               ? const CloseButton()
-              : IconButton(
-                  icon: ImageIcon(
-                      AssetImage("assets/icon_arrow_left.png",
-                          package: 'ad_mvc'),
-                      color: Color(int.parse(0x333333.toString(), radix: 16)),
-                      size: 20),
-                  onPressed: () {
-                    if (widget.onBackTap != null) {
-                      widget.onBackTap!();
-                    } else {
-                      Navigator.maybePop(context);
-                    }
-                  },
-                );
+              : GestureDetector(
+            onTap: (){
+              if (widget.onBackTap != null) {
+                widget.onBackTap!();
+              } else {
+                Navigator.maybePop(context);
+              }
+            },
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10),
+              child: const ImageIcon(
+                  AssetImage("assets/icon_arrow_left.png",
+                      package: 'ad_mvc'),
+                  color: Colors.black87,
+                  size: 20),
+            ),
+          );
       }
     }
+
+
+
     if (leading != null) {
       leading = widget.leadingConstrained
           ? ConstrainedBox(
