@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -262,31 +261,31 @@ class _NavigationBarState extends State<NavBar> {
         parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
     IconThemeData overallIconTheme =
-        IconThemeData(color: Colors.black, opacity: 1, size: 16);
+        const IconThemeData(color: Colors.black, opacity: 1, size: 16);
     IconThemeData actionsIconTheme =
-        IconThemeData(color: Colors.black, opacity: 1, size: 16);
+        const IconThemeData(color: Colors.black, opacity: 1, size: 16);
     TextStyle centerStyle =
-        widget.style ?? TextStyle(color: Colors.black, fontSize: 18);
+        widget.style ?? const TextStyle(color: Colors.black, fontSize: 18);
     TextStyle sideStyle =
-        widget.style ?? TextStyle(color: Colors.black, fontSize: 18);
+        widget.style ?? const TextStyle(color: Colors.black, fontSize: 18);
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity =
           const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
               .transform(widget.toolbarOpacity);
-      if (centerStyle.color != null)
+      if (centerStyle.color != null) {
         centerStyle = centerStyle.copyWith(
             color: centerStyle.color!.withOpacity(opacity));
-      if (sideStyle.color != null)
+      }
+      if (sideStyle.color != null) {
         sideStyle =
             sideStyle.copyWith(color: sideStyle.color!.withOpacity(opacity));
+      }
       overallIconTheme = overallIconTheme.copyWith(
           opacity: opacity * (overallIconTheme.opacity ?? 1.0));
       actionsIconTheme = actionsIconTheme.copyWith(
           opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
     }
-
-
 
     Widget? leading = widget.leading;
     if (leading == null && widget.automaticallyImplyLeading) {
@@ -297,31 +296,30 @@ class _NavigationBarState extends State<NavBar> {
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         );
       } else {
-        if (canPop)
+        if (canPop) {
           leading = useCloseButton
               ? const CloseButton()
               : GestureDetector(
-            onTap: (){
-              if (widget.onBackTap != null) {
-                widget.onBackTap!();
-              } else {
-                Navigator.maybePop(context);
-              }
-            },
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: const ImageIcon(
-                  AssetImage("assets/icon_arrow_left.png",
-                      package: 'ad_mvc'),
-                  color: Colors.black87,
-                  size: 20),
-            ),
-          );
+                  onTap: () {
+                    if (widget.onBackTap != null) {
+                      widget.onBackTap!();
+                    } else {
+                      Navigator.maybePop(context);
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: const ImageIcon(
+                        AssetImage("assets/icon_arrow_left.png",
+                            package: 'ad_mvc'),
+                        color: Colors.black87,
+                        size: 20),
+                  ),
+                );
+        }
       }
     }
-
-
 
     if (leading != null) {
       leading = widget.leadingConstrained

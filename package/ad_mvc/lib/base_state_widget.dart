@@ -18,7 +18,7 @@ class PageStateNetWorkError extends BasePageStateWidget {
             width: 300,
             height: 200,
             fit: BoxFit.contain,
-            package: "ad_common",
+            package: "ad_mvc",
           ),
         );
 }
@@ -38,7 +38,7 @@ class PageStateRequestError extends BasePageStateWidget {
             width: 300,
             height: 200,
             fit: BoxFit.contain,
-            package: "ad_common",
+            package: "ad_mvc",
           ),
         );
 }
@@ -58,7 +58,7 @@ class PageStateEmpty extends BasePageStateWidget {
             width: 300,
             height: 200,
             fit: BoxFit.contain,
-            package: "ad_common",
+            package: "ad_mvc",
           ),
         );
 }
