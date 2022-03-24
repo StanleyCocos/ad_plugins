@@ -1,61 +1,71 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// 网络错误
 class PageStateNetWorkError extends BasePageStateWidget {
-  PageStateNetWorkError(
-      {String? text, Function? onRetry, Object? image, String? path})
-      : super(
-    onRetry: onRetry,
-    text: text ?? "網路不順，請檢查後再重試",
-    image: Image.asset(
-      "assets/placeholder_network_error.png",
-      width: 300,
-      height: 200,
-      fit: BoxFit.contain,
-      package: "ad_common",
-    ),
-  );
+  PageStateNetWorkError({
+    String? text,
+    Function? onRetry,
+    Object? image,
+    String? path,
+  }) : super(
+          onRetry: onRetry,
+          text: text ?? "網路不順，請檢查後再重試",
+          image: Image.asset(
+            "assets/placeholder_network_error.png",
+            width: 300,
+            height: 200,
+            fit: BoxFit.contain,
+            package: "ad_common",
+          ),
+        );
 }
 
 /// 请求错误
 class PageStateRequestError extends BasePageStateWidget {
-  PageStateRequestError(
-      {String? text, Function? onRetry, Object? image, String? path})
-      : super(
-    onRetry: onRetry,
-    text: text ?? "請求錯誤，請重試",
-    image: Image.asset(
-      "assets/placeholder_system_error.png",
-      width: 300,
-      height: 200,
-      fit: BoxFit.contain,
-      package: "ad_common",
-    ),
-  );
+  PageStateRequestError({
+    String? text,
+    Function? onRetry,
+    Object? image,
+    String? path,
+  }) : super(
+          onRetry: onRetry,
+          text: text ?? "請求錯誤，請重試",
+          image: Image.asset(
+            "assets/placeholder_system_error.png",
+            width: 300,
+            height: 200,
+            fit: BoxFit.contain,
+            package: "ad_common",
+          ),
+        );
 }
 
 /// 空页面
 class PageStateEmpty extends BasePageStateWidget {
-  PageStateEmpty({String? text, Function? onRetry, Object? image, String? path})
-      : super(
-    onRetry: onRetry,
-    text: text ?? "暫無數據",
-    image: Image.asset(
-      "assets/placeholder_empty_data.png",
-      width: 300,
-      height: 200,
-      fit: BoxFit.contain,
-      package: "ad_common",
-    ),
-  );
+  PageStateEmpty({
+    String? text,
+    Function? onRetry,
+    Object? image,
+    String? path,
+  }) : super(
+          onRetry: onRetry,
+          text: text ?? "暫無數據",
+          image: Image.asset(
+            "assets/placeholder_empty_data.png",
+            width: 300,
+            height: 200,
+            fit: BoxFit.contain,
+            package: "ad_common",
+          ),
+        );
 }
 
 /// 默认加载页
 class PageStateLoad extends StatelessWidget {
-
-  const PageStateLoad({Key? key}): super(key: key);
+  const PageStateLoad({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +75,7 @@ class PageStateLoad extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           indicator,
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
-            ),
-          ),
+          const SizedBox(height: 20),
           const Text(
             "裝載中...",
             style: TextStyle(
@@ -83,13 +89,14 @@ class PageStateLoad extends StatelessWidget {
 
   Widget get indicator {
     return Platform.isIOS
-        ? const  CupertinoActivityIndicator(
-      animating: true,
-      radius: 12.0,
-    ): const CircularProgressIndicator(
-      strokeWidth: 2.0,
-      valueColor: AlwaysStoppedAnimation(Colors.grey),
-    );
+        ? const CupertinoActivityIndicator(
+            animating: true,
+            radius: 12.0,
+          )
+        : const CircularProgressIndicator(
+            strokeWidth: 2.0,
+            valueColor: AlwaysStoppedAnimation(Colors.grey),
+          );
   }
 }
 
@@ -100,7 +107,7 @@ class CommonStatePage extends StatelessWidget {
   final double? width;
   final double? height;
 
-  CommonStatePage({
+  const CommonStatePage({
     Key? key,
     required this.image,
     this.text = "",
@@ -135,7 +142,6 @@ class CommonStatePage extends StatelessWidget {
   }
 }
 
-
 abstract class BasePageStateWidget extends StatelessWidget {
   final Function? onRetry;
   final String text;
@@ -146,7 +152,7 @@ abstract class BasePageStateWidget extends StatelessWidget {
     required this.image,
     this.onRetry,
     this.text = "",
-  }):super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => renderLayout();
