@@ -1,8 +1,6 @@
 import 'package:screenshot_callback/screenshot_callback.dart';
 
-
-extension Options on ScreenshotManager {
-
+extension ScreenshotOption on ScreenshotManager {
   /// @title init
   /// @description 初始截屏监听
   /// @param: callback 主监听 移除时该回调不印象
@@ -12,7 +10,7 @@ extension Options on ScreenshotManager {
   void init(Function? callback) {
     _mainCallback = _callback;
     screenshotCallback.addListener(
-          () {
+      () {
         _mainCallback?.call();
         _callback?.call();
       },
@@ -24,7 +22,7 @@ extension Options on ScreenshotManager {
   /// @return void
   /// @updateTime 2022/1/26 11:54 上午
   /// @author 10456
-  void cancel(){
+  void cancel() {
     _callback = null;
   }
 
@@ -34,12 +32,10 @@ extension Options on ScreenshotManager {
   /// @return void
   /// @updateTime 2022/1/26 11:55 上午
   /// @author 10456
-  void add(Function callback){
+  void add(Function callback) {
     _callback = callback;
   }
-
 }
-
 
 class ScreenshotManager {
   static ScreenshotManager? _instance;

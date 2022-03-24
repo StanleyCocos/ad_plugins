@@ -58,14 +58,8 @@ class OwnEasyRefresh extends StatelessWidget {
       topBouncing: topBouncing,
       bottomBouncing: bottomBouncing,
       taskIndependence: true,
-      header: header ??
-          BallPulseHeader(
-            color: Color(int.parse(0x333333.toString(), radix: 16)),//  ColorManager.gray33,
-          ),
-      footer: footer ??
-          BallPulseFooter(
-            color: Color(int.parse(0x333333.toString(), radix: 16)), //ColorManager.gray33,
-          ),
+      header: header ?? BallPulseHeader(color: const Color(0xFF333333)),
+      footer: footer ?? BallPulseFooter(color: const Color(0xFF333333)),
       controller: controller,
       onRefresh: onRefresh == null
           ? null

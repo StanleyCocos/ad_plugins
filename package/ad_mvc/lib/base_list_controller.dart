@@ -1,7 +1,5 @@
-
 import 'package:ad_mvc/ad_mvc.dart';
 import 'package:ad_network/ad_network.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 abstract class BaseListController<T extends BaseModel, B extends BaseBean>
     extends BaseController<T> {
@@ -25,7 +23,6 @@ abstract class BaseListController<T extends BaseModel, B extends BaseBean>
 
   /// 请求额外参数
   Options? get requestOptions => null;
-
 
   /// 加载列表 下拉刷新
   Future<void> loadListData() async {
@@ -108,10 +105,11 @@ abstract class BaseListController<T extends BaseModel, B extends BaseBean>
   void _setPageParams({bool isMore = false}) {
     if (isMore) {
       params[MvcManager().page] = "${loadPage + 1}";
-      params[MvcManager().pageSize] = "$pageSize";
     } else {
       loadPage = 1;
-      params[MvcManager().page] = "${loadPage + 1}";
+      params[MvcManager().page] = "${loadPage}";
+    }
+    if (pageSize != 0) {
       params[MvcManager().pageSize] = "$pageSize";
     }
   }
