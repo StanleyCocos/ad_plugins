@@ -44,6 +44,7 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
               child: Scaffold(
                 backgroundColor: backgroundColor,
                 extendBodyBehindAppBar: extendBodyBehindAppBar,
+                resizeToAvoidBottomInset: resizeToAvoidBottomInset,
                 appBar: navigation as PreferredSizeWidget?,
                 body: body,
               ),
@@ -97,6 +98,9 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
       MvcManager().interceptor?.backgroundColor ?? Colors.white;
 
   bool get extendBodyBehindAppBar => false;
+
+  /// 防止键盘重绘顶起背景
+  bool get resizeToAvoidBottomInset => true;
 
   /// 状态栏颜色
   SystemUiOverlayStyle get style => SystemUiOverlayStyle.dark;
