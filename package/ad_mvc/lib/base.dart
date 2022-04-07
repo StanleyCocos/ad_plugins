@@ -97,6 +97,9 @@ abstract class PageInterface {
   /// 导航栏
   Widget? get navigation;
 
+  /// 底部导航栏
+  Widget? get bottomNavigation;
+
   /// 主体
   Widget get body;
 }

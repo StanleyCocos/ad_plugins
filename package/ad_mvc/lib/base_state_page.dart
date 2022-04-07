@@ -46,6 +46,7 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
                 extendBodyBehindAppBar: extendBodyBehindAppBar,
                 resizeToAvoidBottomInset: resizeToAvoidBottomInset,
                 appBar: navigation as PreferredSizeWidget?,
+                bottomNavigationBar: bottomNavigation,
                 body: body,
               ),
             );
@@ -77,6 +78,9 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
 
   @override
   Widget? get navigation => MvcManager().interceptor?.navigation ?? NavBar();
+
+  @override
+  Widget? get bottomNavigation => MvcManager().interceptor?.bottomNavigation;
 
   Widget get statePage {
     final state = controller.switchState;

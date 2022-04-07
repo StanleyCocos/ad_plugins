@@ -22,6 +22,9 @@ abstract class StateInterface {
   /// 导航栏
   Widget? get navigation;
 
+  /// 底部导航栏
+  Widget? get bottomNavigation;
+
   /// 背景颜色
   Color? get backgroundColor;
 }
