@@ -64,6 +64,9 @@ abstract class BasePage<T extends BaseController> extends StatelessWidget
   @override
   Widget? get navigation => MvcManager().interceptor?.navigation ?? NavBar();
 
+  @override
+  Widget? get bottomNavigation => MvcManager().interceptor?.bottomNavigation;
+
   Color get backgroundColor =>
       MvcManager().interceptor?.backgroundColor ?? Colors.white;
 
