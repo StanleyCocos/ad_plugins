@@ -8,7 +8,7 @@ extension ScreenshotOption on ScreenshotManager {
   /// @updateTime 2022/1/26 11:56 上午
   /// @author 10456
   void init(Function? callback) {
-    _mainCallback = _callback;
+    _mainCallback = callback;
     screenshotCallback.addListener(
       () {
         _mainCallback?.call();
