@@ -299,23 +299,19 @@ class _NavigationBarState extends State<NavBar> {
         if (canPop) {
           leading = useCloseButton
               ? const CloseButton()
-              : GestureDetector(
-                  onTap: () {
+              : IconButton(
+                  icon: const ImageIcon(
+                    AssetImage("assets/icon_arrow_left.png", package: 'ad_mvc'),
+                    color: Colors.black87,
+                    size: 20,
+                  ),
+                  onPressed: () {
                     if (widget.onBackTap != null) {
                       widget.onBackTap!();
                     } else {
                       Navigator.maybePop(context);
                     }
                   },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: const ImageIcon(
-                        AssetImage("assets/icon_arrow_left.png",
-                            package: 'ad_mvc'),
-                        color: Colors.black87,
-                        size: 20),
-                  ),
                 );
         }
       }
