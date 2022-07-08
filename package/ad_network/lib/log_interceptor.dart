@@ -84,18 +84,15 @@ class LogPrintInterceptor extends Interceptor {
       printKV('请求方式', options.method);
       if (options.method == "POST") {
         if (options.data is FormData) {
-          StringBuffer sb = StringBuffer();
-          sb.write("{");
-          (options.data as FormData).fields.forEach((e) {
-            sb.write("${e.key}: ${e.value}, ");
-          });
-          sb.write("}");
-          printKV('请求参数', sb.toString());
+          printV("请求参数:");
+          prettyPrintJson((options.data as FormData).fields);
         } else {
-          printKV('请求参数', options.data);
+          printV("请求参数:");
+          prettyPrintJson(options.data);
         }
       } else {
-        printKV('请求参数', options.queryParameters);
+        printV("请求参数:");
+        prettyPrintJson(options.queryParameters);
       }
     }
 
@@ -106,12 +103,8 @@ class LogPrintInterceptor extends Interceptor {
       printV("请求头部:");
       options.headers.forEach((key, v) {
         if (key == "Authorization") {
-          if (v.toString().length > 800) {
-            printKV("$key", "${v.toString().substring(0, 800)}");
-            printV("${v.toString().substring(800, v.toString().length)}");
-          } else {
-            printKV("$key", "$v");
-          }
+          printV(key.toString());
+          prettyLongString(v.toString());
         } else {
           printKV("$key", "$v");
         }
@@ -163,7 +156,7 @@ class LogPrintInterceptor extends Interceptor {
         response.requestOptions.extra[singleResponseBodyShowLogKey] ?? true;
     if (responseBody && singleResponseBodyShowLog) {
       printV("响应内容:");
-      prettyPrintJson(response.toString());
+      prettyPrintJson(response.data);
     }
     printV("");
   }
@@ -180,13 +173,22 @@ class LogPrintInterceptor extends Interceptor {
   JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
   /// 打印Json格式化数据
-  void prettyPrintJson(String json) {
+  void prettyPrintJson(dynamic jsonData) {
     try {
-      var object = decoder.convert(json);
-      var prettyString = encoder.convert(object);
-      prettyString.split('\n').forEach((element) => print(element));
+      var prettyString = encoder.convert(jsonData);
+      prettyString.split('\n').forEach((element) => logPrint(element));
     } on FormatException catch (_) {
       logPrint(json);
+    }
+  }
+
+  /// 为了便于查看对过长的字符串进行截断显示
+  void prettyLongString(String str) {
+    if (str.length > 150) {
+      logPrint(str.substring(0, 150));
+      prettyLongString(str.substring(150, str.length));
+    } else {
+      logPrint(str);
     }
   }
 }
