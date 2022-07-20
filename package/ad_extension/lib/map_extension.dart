@@ -1,5 +1,4 @@
 extension MapOption<K, V> on Map {
-
   V? value(K key) {
     if (containsKey(key)) {
       return this[key];
@@ -11,7 +10,7 @@ extension MapOption<K, V> on Map {
   void set({K? key, V? obj}) {
     if (key == null) return;
     if (obj == null) {
-      this.remove(key);
+      remove(key);
     } else {
       this[key] = obj;
     }
@@ -19,10 +18,10 @@ extension MapOption<K, V> on Map {
 
   void add(K key, V value) {
     if (key == null) return;
-    if (this.containsKey(key)) {
-      this.update(key, (value) => value);
+    if (containsKey(key)) {
+      update(key, (_) => value);
     } else {
-      this.putIfAbsent(key, () => value);
+      putIfAbsent(key, () => value);
     }
   }
 }

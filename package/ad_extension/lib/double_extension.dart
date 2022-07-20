@@ -1,10 +1,8 @@
-extension doubleOption on double {
-
-
-
+extension DoubleOption on double {
   String string(int decimal) {
     return "$this";
   }
+
   /*
   * 加千分号
   * */

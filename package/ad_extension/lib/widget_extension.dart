@@ -208,7 +208,7 @@ extension STPositionExtension on Widget {
 extension STSizeExtension on Widget {
 
   Widget size({Size? size}){
-    size ??= Size(double.infinity, double.infinity);
+    size ??= const Size(double.infinity, double.infinity);
     return SizedBox(
       width: size.width,
       height: size.height,

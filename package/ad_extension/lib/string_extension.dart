@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:collection/collection.dart' show IterableExtension;
-import 'package:crypto/crypto.dart' as crypto;
-import 'package:convert/convert.dart' as convert;
-import 'package:flutter/foundation.dart';
-import 'package:ad_extension/int_extension.dart';
+
 import 'package:ad_extension/date_extension.dart';
+import 'package:ad_extension/int_extension.dart';
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:convert/convert.dart' as convert;
+import 'package:crypto/crypto.dart' as crypto;
+import 'package:flutter/foundation.dart';
 
 /*
 * 字符串常规操作
@@ -116,7 +117,7 @@ extension StringOption on String? {
   * */
   String? replaceSub(String from, String replace, {bool isAll = false}) {
     if (from.isEmptyOrNull) return this;
-    if (replace.length < 0) return this;
+    if (replace.isEmptyOrNull) return this;
     if (isAll) return this!.replaceAll(from, replace);
     return this!.replaceFirst(from, replace);
   }
@@ -195,23 +196,22 @@ extension StringOption on String? {
 * 字符串加密
 * */
 extension StringEncryption on String {
-
   String md5() {
-    if(isEmptyOrNull) return "";
-    var bytes = Utf8Encoder().convert(this);
+    if (isEmptyOrNull) return "";
+    var bytes = const Utf8Encoder().convert(this);
     var value = crypto.md5.convert(bytes);
     return convert.hex.encode(value.bytes);
   }
 
   String base64() {
-    if(isEmptyOrNull) return "";
-    var bytes = Utf8Encoder().convert(this);
+    if (isEmptyOrNull) return "";
+    var bytes = const Utf8Encoder().convert(this);
     return base64Encode(bytes);
   }
 
   String sha1() {
-    if(isEmptyOrNull) return "";
-    var data = Utf8Encoder().convert(this);
+    if (isEmptyOrNull) return "";
+    var data = const Utf8Encoder().convert(this);
     var digest = crypto.sha1.convert(data);
     return convert.hex.encode(digest.bytes);
   }
@@ -229,11 +229,9 @@ extension StringEncryption on String {
   }
 }
 
-
 extension debugTest on String {
-
-  void log(){
-    if(kReleaseMode) return;
+  void log() {
+    if (kReleaseMode) return;
     print("${DateTime.now().string(format: "HH:mm:ss")}: $this");
   }
 }

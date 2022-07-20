@@ -2,20 +2,17 @@ import 'package:intl/intl.dart';
 
 ///时间-日期 扩展类
 extension DateOption on DateTime {
-
   /*
   * 获取当前毫秒
   * */
-  int get nowMillisecond => this.millisecondsSinceEpoch;
+  int get nowMillisecond => millisecondsSinceEpoch;
 
   /*
   * 是否为今天
   * */
   bool get isToday {
     final nowDate = DateTime.now();
-    return this.year == nowDate.year &&
-        this.month == nowDate.month &&
-        this.day == nowDate.day;
+    return year == nowDate.year && month == nowDate.month && day == nowDate.day;
   }
 
   /*
@@ -23,9 +20,9 @@ extension DateOption on DateTime {
   * */
   bool get isYesterday {
     final nowDate = DateTime.now();
-    return this.year == nowDate.year &&
-        this.month == nowDate.month &&
-        this.day == nowDate.day - 1;
+    return year == nowDate.year &&
+        month == nowDate.month &&
+        day == nowDate.day - 1;
   }
 
   /*
@@ -41,7 +38,7 @@ extension DateOption on DateTime {
   /*
   * 获取月份的第一天
   * */
-  DateTime get firstDayOfMonth => DateTime(this.year, this.month);
+  DateTime get firstDayOfMonth => DateTime(year, month);
 
   /*
   * 获取指定格式的当前时间
@@ -54,28 +51,27 @@ extension DateOption on DateTime {
   * 获取月份的最后一天
   * */
   DateTime get lastDayOfMonth {
-    var beginningNextMonth = (this.month < 12)
-        ? DateTime(this.year, this.month + 1, 1)
-        : DateTime(this.year + 1, 1, 1);
-    return beginningNextMonth.subtract(Duration(days: 1));
+    var beginningNextMonth =
+        (month < 12) ? DateTime(year, month + 1, 1) : DateTime(year + 1, 1, 1);
+    return beginningNextMonth.subtract(const Duration(days: 1));
   }
 
   /*
   * 获取周的第一天
   * */
   DateTime get firstDayOfWeek {
-    final day = DateTime.utc(this.year, this.month, this.day, 12);
-    var decreaseNum = day.weekday % 7;
-    return this.subtract(Duration(days: decreaseNum));
+    final dayTime = DateTime.utc(year, month, day, 12);
+    var decreaseNum = dayTime.weekday % 7;
+    return subtract(Duration(days: decreaseNum));
   }
 
   /*
   * 获取周的最后一天
   * */
   DateTime get lastDayOfWeek {
-    final day = DateTime.utc(this.year, this.month, this.day, 12);
-    var increaseNum = day.weekday % 7;
-    return day.add(Duration(days: 7 - increaseNum));
+    final dayTime = DateTime.utc(year, month, day, 12);
+    var increaseNum = dayTime.weekday % 7;
+    return dayTime.add(Duration(days: 7 - increaseNum));
   }
 
   /*
@@ -98,42 +94,42 @@ extension DateOption on DateTime {
   * 获取前一个月时间
   * */
   DateTime get previousMonth {
-    var year = this.year;
-    var month = this.month;
-    if (month == 1) {
-      year--;
-      month = 12;
+    var yearDate = year;
+    var monthDate = month;
+    if (monthDate == 1) {
+      yearDate--;
+      monthDate = 12;
     } else {
-      month--;
+      monthDate--;
     }
-    return DateTime(year, month);
+    return DateTime(yearDate, monthDate);
   }
 
   /*
   * 获取后一个月时间
   * */
   DateTime get nextMonth {
-    var year = this.year;
-    var month = this.month;
+    var yearDate = year;
+    var monthDate = month;
 
-    if (month == 12) {
-      year++;
-      month = 1;
+    if (monthDate == 12) {
+      yearDate++;
+      monthDate = 1;
     } else {
-      month++;
+      monthDate++;
     }
-    return DateTime(year, month);
+    return DateTime(yearDate, monthDate);
   }
 
   /*
   * 获取前一周
   * */
-  DateTime get previousWeek => this.subtract(Duration(days: 7));
+  DateTime get previousWeek => subtract(const Duration(days: 7));
 
   /*
   * 获取下一周
   * */
-  DateTime get nextWeek => this.add(Duration(days: 7));
+  DateTime get nextWeek => add(const Duration(days: 7));
 
   /*
   *  获取指定范围的时间
@@ -143,7 +139,7 @@ extension DateOption on DateTime {
     var offset = start.timeZoneOffset;
     while (i.isBefore(end)) {
       yield i;
-      i = i.add(Duration(days: 1));
+      i = i.add(const Duration(days: 1));
       var timeZoneDiff = i.timeZoneOffset - offset;
       if (timeZoneDiff.inSeconds != 0) {
         offset = i.timeZoneOffset;
