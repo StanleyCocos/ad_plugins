@@ -132,7 +132,7 @@ extension Route on BaseController {
   /// @return Future<Object?>
   /// @updateTime 2022/1/27 10:25 上午
   /// @author 10456
-  Future<Object?> push(
+  Future<T?> push<T>(
       Widget page, {
         Object? arguments,
         bool isReplace = false,

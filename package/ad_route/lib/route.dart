@@ -232,7 +232,7 @@ extension RouteOption on RouteManager {
   /// @return Future<Object?>
   /// @updateTime 2022/1/17 9:55 上午
   /// @author 10456
-  Future<Object?> pushPage(
+  Future<T?> pushPage<T>(
       Widget page, {
         bool isReplace = false,
         bool isRemoveUntil = false,
