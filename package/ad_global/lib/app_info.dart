@@ -23,8 +23,8 @@ class AppInfoManager {
   /// 设备系统版本
   String get systemVersion => _systemVersion;
 
-  IosDeviceInfo? iosInfo
-  AndroidDeviceInfo? androidInfo
+  IosDeviceInfo? iosInfo;
+  AndroidDeviceInfo? androidInfo;
 
   String _mode = "";
   String _version = "";
