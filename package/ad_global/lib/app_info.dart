@@ -23,6 +23,9 @@ class AppInfoManager {
   /// 设备系统版本
   String get systemVersion => _systemVersion;
 
+  IosDeviceInfo? iosInfo
+  AndroidDeviceInfo? androidInfo
+
   String _mode = "";
   String _version = "";
   String _versionCode = "";
@@ -61,7 +64,7 @@ class AppInfoManager {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      iosInfo = await deviceInfo.iosInfo;
       _mode = DeviceMode.transform(iosInfo.utsname.machine ?? "") ?? "";
       _versionCode = packageInfo.buildNumber;
       _version = packageInfo.version;
@@ -75,7 +78,7 @@ class AppInfoManager {
       }
       _systemVersion = iosInfo.systemVersion ?? "";
     } else if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      androidInfo = await deviceInfo.androidInfo;
       _mode = androidInfo.model ?? "";
       _versionCode = packageInfo.buildNumber;
       _version = packageInfo.version;

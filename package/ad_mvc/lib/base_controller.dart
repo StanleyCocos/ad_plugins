@@ -15,7 +15,7 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
         BaseControllerCommonMethod {
 
   /// 当前页面上下文
-  BuildContext? context;
+  late BuildContext context;
 
   /// 是否加载中
   @override
