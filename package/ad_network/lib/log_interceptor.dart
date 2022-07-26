@@ -85,7 +85,7 @@ class LogPrintInterceptor extends Interceptor {
       if (options.method == "POST") {
         if (options.data is FormData) {
           printV("请求参数:");
-          prettyPrintJson((options.data as FormData).fields);
+          printV(options.data);
         } else {
           printV("请求参数:");
           prettyPrintJson(options.data);
