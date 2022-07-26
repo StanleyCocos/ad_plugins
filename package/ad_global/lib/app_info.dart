@@ -65,28 +65,28 @@ class AppInfoManager {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (Platform.isIOS) {
       iosInfo = await deviceInfo.iosInfo;
-      _mode = DeviceMode.transform(iosInfo.utsname.machine ?? "") ?? "";
+      _mode = DeviceMode.transform(iosInfo?.utsname.machine ?? "") ?? "";
       _versionCode = packageInfo.buildNumber;
       _version = packageInfo.version;
       _imei = await _getImei();
       if (_imei.length <= 10) {
         // 修复之前可能存在字符串 null的imei
-        _imei = iosInfo.identifierForVendor ?? _imeiBuilder();
+        _imei = iosInfo?.identifierForVendor ?? _imeiBuilder();
         if(_imei.length <= 10) _imei = _imeiBuilder();
         _imei = _imei.toLowerCase();
         _setImei(_imei);
       }
-      _systemVersion = iosInfo.systemVersion ?? "";
+      _systemVersion = iosInfo?.systemVersion ?? "";
     } else if (Platform.isAndroid) {
       androidInfo = await deviceInfo.androidInfo;
-      _mode = androidInfo.model ?? "";
+      _mode = androidInfo?.model ?? "";
       _versionCode = packageInfo.buildNumber;
       _version = packageInfo.version;
-      _systemVersion = androidInfo.version.release ?? "";
+      _systemVersion = androidInfo?.version.release ?? "";
       _imei = await _getImei();
       if (_imei.length <= 10) {
         // 修复之前可能存在字符串 null的imei
-        _imei = androidInfo.androidId ?? "";
+        _imei = androidInfo?.androidId ?? "";
         _imei = _generateUUID() ?? _imeiBuilder();
         if(_imei.length <= 10) _imei = _imeiBuilder();
         _imei = _imei.toLowerCase();
@@ -132,7 +132,7 @@ class AppInfoManager {
     var imei = String.fromCharCodes(
       Iterable.generate(
         length,
-        (_){
+            (_){
           return _chars.codeUnitAt(
             Random().nextInt(_chars.length),
           );
