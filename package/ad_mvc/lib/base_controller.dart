@@ -64,7 +64,7 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
   @override
   void onNavigationBackClick({bool rootNavigator = false, var result}) {
     if (rootNavigator) {
-      Navigator.of(context!, rootNavigator: true).pop(result);
+      Navigator.of(context, rootNavigator: true).pop(result);
     } else {
       RouteManager().pop(result: result);
     }

@@ -44,6 +44,7 @@ bool asBool(Map<String, dynamic>? json, String key, {bool defaultValue = false})
     if (value is String) {
       if (value == "1" || value.toLowerCase() == "true") return true;
       if (value == "0" || value.toLowerCase() == "false") return false;
+      if (value.toLowerCase() == "yes" || value.toLowerCase() == "true") return true;
     }
     return defaultValue;
   } catch(e){
