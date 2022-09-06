@@ -90,7 +90,10 @@ extension Common on BaseController{
 
   /// 获取页面状态
   PageStateType get switchState {
-    if (content) return PageStateType.content;
+    if (content) {
+      if(isLoadFirst) isLoadFirst = false;
+      return PageStateType.content;
+    }
     if (loading) {
       isLoadFirst = false;
       return PageStateType.loading;
