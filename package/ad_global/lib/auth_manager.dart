@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 enum AuthType {
@@ -71,7 +73,16 @@ class Auth {
         status = await Permission.camera.request();
         break;
       case AuthType.photos:
-        status = await Permission.photos.request();
+        if (Platform.isAndroid) {
+          final androidInfo = await DeviceInfoPlugin().androidInfo;
+          if ((androidInfo.version.sdkInt ?? 0) <= 32) {
+            status = await Permission.storage.request();
+          }  else {
+            status = await Permission.photos.request();
+          }
+        } else {
+          status = await Permission.photos.request();
+        }
         break;
       case AuthType.contacts:
         status = await Permission.contacts.request();
