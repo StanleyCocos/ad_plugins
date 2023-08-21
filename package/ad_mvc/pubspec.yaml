@@ -19,11 +19,13 @@ dependencies:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_route/
+      ref: feature/temp
 
   ad_network:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_network/
+      ref: feature/temp
 
 
 dev_dependencies:

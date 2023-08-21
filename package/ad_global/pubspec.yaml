@@ -18,11 +18,11 @@ dependencies:
     git:
       url: https://github.com/windows7lake/flutter_screenshot_callback.git
   flutter_keychain: ^2.2.1
-  flutter_fingerprint:
-    version: ^0.0.1
-    hosted:
-      name: flutter_fingerprint
-      url: http://192.168.8.75:4000/
+#  flutter_fingerprint:
+#    version: ^0.0.1
+#    hosted:
+#      name: flutter_fingerprint
+#      url: http://192.168.8.75:4000/
 
 dev_dependencies:
   flutter_test:
