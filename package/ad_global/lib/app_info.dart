@@ -1,43 +1,40 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
+import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-// import 'package:flutter_fingerprint/flutter_fingerprint.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-/// app信息管理类
+///app信息管理类
 class AppInfoManager {
-  /// 设备类型
-  String get mode => _mode;
-
   /// 版本
   String get version => _version;
+
+  /// 设备类型
+  String get mode => _mode;
 
   /// 版本号
   String get versionCode => _versionCode;
 
+  /// 唯一标识
+  String get imei => _imei;
+
   /// 设备系统版本
   String get systemVersion => _systemVersion;
 
-  /// 唯一标识(硬件指纹或随机生成，相同厂商相同机型可能存在重复)
-  /// 卸载重装后基本不会变化 (还未完全验证)
-  String get imei => _imei;
-
-  /// 唯一标识(随机生成)，卸载重装后会变化
-  String get appImei => _appImei;
+  IosDeviceInfo? iosInfo;
+  AndroidDeviceInfo? androidInfo;
 
   String _mode = "";
-  String _imei = "";
   String _version = "";
   String _versionCode = "";
+  String _imei = "";
   String _systemVersion = "";
-  String _appImei = "";
 
   factory AppInfoManager() => _getInstance();
   static AppInfoManager? _instance;
-  static String _imeiKey = "designUUID";
-  static String _appImeiKey = "appDesignUUID";
+  static const String IMEI_KEY = "designUUID";
 
   AppInfoManager._internal();
 
@@ -46,50 +43,9 @@ class AppInfoManager {
     return _instance!;
   }
 
-  /// imei存储的key，可由外面设置，不设置则用默认
-  Future initInfo({String? imeiKey, String? appImeiKey}) async {
-    if (imeiKey != null && imeiKey.isNotEmpty) _imeiKey = imeiKey;
-    if (appImeiKey != null && appImeiKey.isNotEmpty) _appImeiKey = appImeiKey;
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      _mode = DeviceMode.transform(iosInfo.utsname.machine ?? "") ?? "";
-      _systemVersion = iosInfo.systemVersion ?? "";
-    } else if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      _mode = androidInfo.model ?? "";
-      _systemVersion = androidInfo.version.release ?? "";
-    }
-    _versionCode = packageInfo.buildNumber;
-    _version = packageInfo.version;
-    await setFingerImei();
-    await setAppImei();
-  }
-
-  /// 设置finger类型Imei (原旧的存储的imei不受影响)
-  Future<void> setFingerImei() async {
-    _imei = await _getKeychainImei(_imeiKey);
-    if (_imei.length <= 10) {
-      _imei = imeiNewBuilder();// await FlutterFingerprint.getDeviceId() ?? imeiNewBuilder();
-      if (_imei.length <= 10) _imei = imeiNewBuilder();
-      FlutterKeychain.put(key: _imeiKey, value: imei);
-    }
-  }
-
-  /// 设置app类型Imei
-  Future<void> setAppImei() async {
-    _appImei = await _getKeychainImei(_appImeiKey);
-    if (_appImei.length <= 10) {
-      _appImei = imeiNewBuilder();
-      FlutterKeychain.put(key: _appImeiKey, value: _appImei);
-    }
-  }
-
-  /// 获取存在keychain中的imei
-  Future<String> _getKeychainImei(String key) async {
+  Future<String> _getImei() async {
     try {
-      var content = await FlutterKeychain.get(key: key);
+      var content = await FlutterKeychain.get(key: IMEI_KEY);
       if (content != null && content.isNotEmpty) {
         content = content.replaceAll("\n", "");
         return content.toLowerCase();
@@ -100,42 +56,90 @@ class AppInfoManager {
     }
   }
 
-  /// 随机生成imei (32位)
-  String imeiNewBuilder() {
-    List<String> sbList = [];
-    sbList.add(_builderRandom(8));
-    sbList.add(_builderRandom(4));
-    sbList.add(_builderRandom(4));
-    sbList.add(_builderRandom(4));
-    sbList.add(_builderTimeStamp());
-    return sbList.join("-");
+  Future<void> _setImei(String imei) async {
+    return FlutterKeychain.put(key: IMEI_KEY, value: imei);
+  }
+
+  Future initInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if (Platform.isIOS) {
+      iosInfo = await deviceInfo.iosInfo;
+      _mode = DeviceMode.transform(iosInfo?.utsname.machine ?? "") ?? "";
+      _versionCode = packageInfo.buildNumber;
+      _version = packageInfo.version;
+      _imei = await _getImei();
+      if (_imei.length <= 10) {
+        // 修复之前可能存在字符串 null的imei
+        _imei = iosInfo?.identifierForVendor ?? _imeiBuilder();
+        if(_imei.length <= 10) _imei = _imeiBuilder();
+        _imei = _imei.toLowerCase();
+        _setImei(_imei);
+      }
+      _systemVersion = iosInfo?.systemVersion ?? "";
+    } else if (Platform.isAndroid) {
+      androidInfo = await deviceInfo.androidInfo;
+      _mode = androidInfo?.model ?? "";
+      _versionCode = packageInfo.buildNumber;
+      _version = packageInfo.version;
+      _systemVersion = androidInfo?.version.release ?? "";
+      _imei = await _getImei();
+      if (_imei.length <= 10) {
+        // 修复之前可能存在字符串 null的imei
+        _imei = androidInfo?.androidId ?? "";
+        _imei = _generateUUID() ?? _imeiBuilder();
+        if(_imei.length <= 10) _imei = _imeiBuilder();
+        _imei = _imei.toLowerCase();
+        _setImei(_imei);
+      }
+    }
+  }
+
+  String? _generateUUID() {
+    if (_imei.isEmpty) return null;
+    var androidId = Utf8Encoder().convert(_imei);
+    String uuid = md5.convert(androidId).toString();
+    if (uuid.length != 32) return null;
+    StringBuffer sb = StringBuffer();
+    sb.write(uuid.substring(0, 8));
+    sb.write("-");
+    sb.write(uuid.substring(8, 12));
+    sb.write("-");
+    sb.write(uuid.substring(12, 16));
+    sb.write("-");
+    sb.write(uuid.substring(16, 20));
+    sb.write("-");
+    sb.write(uuid.substring(20, 32));
+    return sb.toString();
+  }
+
+  String _imeiBuilder() {
+    StringBuffer sb = StringBuffer();
+    sb.write(_builderRandom(8));
+    sb.write("-");
+    sb.write(_builderRandom(4));
+    sb.write("-");
+    sb.write(_builderRandom(4));
+    sb.write("-");
+    sb.write(_builderRandom(4));
+    sb.write("-");
+    sb.write(_builderRandom(12));
+    return sb.toString();
   }
 
   String _builderRandom(int length) {
-    const _chars = "a01b47c25d83e69f";
-    _chars.codeUnitAt(Random().nextInt(_chars.length));
-    var randImei = String.fromCharCodes(
-      Iterable.generate(length, (_) {
-        return _chars.codeUnitAt(Random().nextInt(_chars.length));
-      }),
+    var _chars = "abcdef0123456789";
+    var imei = String.fromCharCodes(
+      Iterable.generate(
+        length,
+            (_){
+          return _chars.codeUnitAt(
+            Random().nextInt(_chars.length),
+          );
+        },
+      ),
     );
-    if (randImei.length == length) {
-      return randImei;
-    } else {
-      return _chars.substring(0, length);
-    }
-  }
-
-  /// 生成时间戳16进制+t 共12位
-  String _builderTimeStamp() {
-    final nowTime = DateTime.now().millisecondsSinceEpoch.toRadixString(16);
-    if (nowTime.length == 11) {
-      return "${nowTime}t";
-    } else if (nowTime.length > 11) {
-      return "${nowTime.substring(0, 11)}t";
-    } else {
-      return "$nowTime${_builderRandom(11 - nowTime.length)}t";
-    }
+    return imei.replaceRange(0, 1, "x");
   }
 }
 
