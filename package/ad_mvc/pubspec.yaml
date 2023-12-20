@@ -26,11 +26,13 @@ dependencies:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_route/
+      ref: feature/upgrade
 
   ad_network:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_network/
+      ref: feature/upgrade
 
 
 dev_dependencies:
