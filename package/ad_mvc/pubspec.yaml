@@ -15,22 +15,22 @@ dependencies:
   flutter_easyloading: 3.0.3
   flutter_easyrefresh: 2.2.1
 
-  ad_route:
-    path: ../ad_route
-
-  ad_network:
-    path: ../ad_network
-
-
 #  ad_route:
-#    git:
-#      url: https://github.com/StanleyCocos/ad_plugins.git
-#      path: package/ad_route/
+#    path: ../ad_route
 #
 #  ad_network:
-#    git:
-#      url: https://github.com/StanleyCocos/ad_plugins.git
-#      path: package/ad_network/
+#    path: ../ad_network
+
+
+  ad_route:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_route/
+
+  ad_network:
+    git:
+      url: https://github.com/StanleyCocos/ad_plugins.git
+      path: package/ad_network/
 
 
 dev_dependencies:
