@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter_fingerprint/flutter_fingerprint.dart';
+// import 'package:flutter_fingerprint/flutter_fingerprint.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -71,8 +71,9 @@ class AppInfoManager {
   Future<void> setFingerImei() async {
     _imei = await _getKeychainImei(_imeiKey);
     if (_imei.length <= 10) {
-      _imei = await FlutterFingerprint.getDeviceId() ?? imeiNewBuilder();
-      if (_imei.length <= 10) _imei = imeiNewBuilder();
+      // _imei = await FlutterFingerprint.getDeviceId() ?? imeiNewBuilder();
+      // if (_imei.length <= 10) _imei = imeiNewBuilder();
+      _imei = imeiNewBuilder();
       FlutterKeychain.put(key: _imeiKey, value: imei);
     }
   }
