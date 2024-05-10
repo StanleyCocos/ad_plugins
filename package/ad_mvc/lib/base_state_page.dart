@@ -14,7 +14,7 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
   @override
   void initState() {
     controller.initLoad();
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => controller.widgetDidLoad());
     super.initState();
   }

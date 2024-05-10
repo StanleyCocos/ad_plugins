@@ -1,7 +1,6 @@
-import 'package:ad_route/animation.dart';
-import 'package:ad_route/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 
 import 'base.dart';
 import 'base_model.dart';
@@ -60,15 +59,15 @@ abstract class BaseController<T extends BaseModel> extends ChangeNotifier
   @override
   void initRouteArguments() {}
 
-  /// 当前路由点击后退
-  @override
-  void onNavigationBackClick({bool rootNavigator = false, var result}) {
-    if (rootNavigator) {
-      Navigator.of(context, rootNavigator: true).pop(result);
-    } else {
-      RouteManager().pop(result: result);
-    }
-  }
+  // /// 当前路由点击后退
+  // @override
+  // void onNavigationBackClick({bool rootNavigator = false, var result}) {
+  //   if (rootNavigator) {
+  //     Navigator.of(context, rootNavigator: true).pop(result);
+  //   } else {
+  //     RouteManager().pop(result: result);
+  //   }
+  // }
 
   /// 隐藏键盘
   @override
@@ -111,7 +110,7 @@ extension Common on BaseController{
   /// @updateTime 2022/1/27 10:24 上午
   /// @author 10456
   T? getArgument<T>(Object key, {T? defaultValue}) {
-    final arguments = RouteManager().currentRoute?.settings.arguments;
+    final arguments = Get.arguments;
     if (arguments == null) return defaultValue;
     if (arguments is Map) {
       final value = arguments[key];
@@ -135,20 +134,26 @@ extension Route on BaseController {
   /// @return Future<Object?>
   /// @updateTime 2022/1/27 10:25 上午
   /// @author 10456
-  Future<Object?> push(
+  Future<dynamic>? push(
       Widget page, {
         Object? arguments,
         bool isReplace = false,
-        PageTransitionType type = PageTransitionType.right,
+        Transition? type,
         bool isRemoveUntil = false,
       }) {
-    return RouteManager().pushPage(
-      page,
-      arguments: arguments,
-      isReplace: isReplace,
-      isRemoveUntil: isRemoveUntil,
-      type: type,
-    );
+    if(isReplace){
+      return Get.off(page, arguments: arguments, transition: type);
+    } else {
+      return Get.to(page, arguments: arguments, transition: type);
+    }
+
+    // return RouteManager().pushPage(
+    //   page,
+    //   arguments: arguments,
+    //   isReplace: isReplace,
+    //   isRemoveUntil: isRemoveUntil,
+    //   type: type,
+    // );
   }
 
   /// @title pop
@@ -159,9 +164,8 @@ extension Route on BaseController {
   /// @updateTime 2022/1/27 10:26 上午
   /// @author 10456
   void pop<T>({type, T? result}) {
-    return RouteManager().pop(type: type, result: result);
+    Get.back(result: result);
   }
-
 }
 
 

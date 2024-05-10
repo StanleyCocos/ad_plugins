@@ -1,7 +1,6 @@
 
 
 import 'package:ad_mvc/state_interceptor.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MvcManager {
 
