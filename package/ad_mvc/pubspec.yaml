@@ -4,7 +4,7 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.15.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,15 +15,24 @@ dependencies:
   flutter_easyloading: 3.0.3
   flutter_easyrefresh: 2.2.1
 
+#  ad_route:
+#    path: ../ad_route
+#
+#  ad_network:
+#    path: ../ad_network
+
+
   ad_route:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_route/
+      ref: feature/upgrade
 
   ad_network:
     git:
       url: https://github.com/StanleyCocos/ad_plugins.git
       path: package/ad_network/
+      ref: feature/upgrade
 
 
 dev_dependencies:
