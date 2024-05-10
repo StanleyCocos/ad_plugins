@@ -69,9 +69,6 @@ abstract class BaseControllerCommonMethod {
   /// 初始路由参数
   void initRouteArguments();
 
-  /// 页面返回
-  void onNavigationBackClick();
-
   /// 隐藏键盘
   void hideKeyboard();
 
