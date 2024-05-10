@@ -62,7 +62,11 @@ class MyStateInterceptor implements StateInterface {
   }
 
   @override
-  Widget? get navigation => const NavBar();
+  Widget? get navigation => null;
+
+  @override
+  // TODO: implement bottomNavigation
+  Widget? get bottomNavigation => throw UnimplementedError();
 }
 
 
