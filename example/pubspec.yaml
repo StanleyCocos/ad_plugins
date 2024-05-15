@@ -54,7 +54,7 @@ dependencies:
   ad_network:
     path: ../package/ad_network
 
-
+  sqflite_common_ffi_web: '>=0.1.0-dev.1'
 
 dev_dependencies:
   flutter_test:

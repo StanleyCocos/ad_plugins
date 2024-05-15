@@ -4,13 +4,13 @@ import 'package:ad_mvc/ad_mvc.dart';
 import 'package:ad_network/ad_network.dart';
 import 'package:ad_plugins/cache_test/cache_sp_page.dart';
 import 'package:ad_plugins/mvc/interceptor.dart';
-import 'package:ad_plugins/mvc/list_page2/list_page2.dart';
 import 'package:ad_plugins/network/my_http_request_error.dart';
 import 'package:ad_plugins/network/network_test_page.dart';
 import 'package:ad_plugins/route/RouteOption.dart';
 import 'package:ad_plugins/route/route1/route_page1.dart';
 import 'package:ad_route/ad_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'cache_test/cache_db_page.dart';
 import 'mvc/page1/page1.dart';
@@ -22,8 +22,8 @@ void main() async {
   /// 初始偏好缓存模块
   await SpManager.init();
 
-  /// 初始化数据库模块
-  await DBManager.init();
+  // / 初始化数据库模块
+  // await DBManager.init();
 
   /// 初始网络请求模块
   HttpRequest().init(
@@ -110,7 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
       "Sqllite 缓存",
       "网络请求",
       "mvc1",
-      "mvc2",
       "route"
     ];
 
@@ -152,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
             .push(MaterialPageRoute(builder: (context) => CacheSpPage()));
         break;
       case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => CacheDBPage()));
+        // Navigator.of(context)
+        //     .push(MaterialPageRoute(builder: (context) => CacheDBPage()));
         break;
       case 2:
         Navigator.of(context)
@@ -164,10 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
             .push(MaterialPageRoute(builder: (context) => const Page1()));
         break;
       case 4:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const ListPage1()));
-        break;
-      case 5:
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => RoutePage1()));
         break;

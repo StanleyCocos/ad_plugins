@@ -53,10 +53,10 @@ packages:
     dependency: transitive
     description:
       name: ffi
-      sha256: "35d0f481d939de0d640b3db9a7aa36a52cd22054a798a73b4f50bdad5ce12678"
+      sha256: "13a6ccf6a459a125b3fcdb6ec73bd5ff90822e071207c663bfd1f70062d51d18"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.1"
   file:
     dependency: transitive
     description:
@@ -237,22 +237,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.10.0"
-  sqflite:
-    dependency: "direct main"
-    description:
-      name: sqflite
-      sha256: "67fa2c957a8370971fe544542ea1a0d58a07a50c12db46971a86de6ffbe905c2"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.0+4"
-  sqflite_common:
-    dependency: transitive
-    description:
-      name: sqflite_common
-      sha256: fcc6389e4b12d71a9dadc05798ac3ee7ca299d91c529e3dd9970bedc28723bd9
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.0"
   stack_trace:
     dependency: transitive
     description:
@@ -277,14 +261,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
-  synchronized:
-    dependency: transitive
-    description:
-      name: synchronized
-      sha256: "271977ff1e9e82ceefb4f08424b8839f577c1852e0726b5ce855311b46d3ef83"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.0.0"
   term_glyph:
     dependency: transitive
     description:

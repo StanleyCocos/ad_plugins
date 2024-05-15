@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:synchronized/synchronized.dart';
 import 'package:ad_cache/tool/extensions.dart';
 
 
 /// 偏好设置存储管理类
 class SpManager {
-  static final Lock _lock = Lock();
   static SharedPreferences? _sharedPreferences;
 
   /// @title init
@@ -15,11 +13,7 @@ class SpManager {
   /// @updateTime 2021/12/23 9:56 上午
   /// @author 10456
   static Future init() async {
-    if (_sharedPreferences == null) {
-      await _lock.synchronized(() async {
-        _sharedPreferences ??= await SharedPreferences.getInstance();
-      });
-    }
+    _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
   /// @title get
