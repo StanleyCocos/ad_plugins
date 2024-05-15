@@ -2,8 +2,10 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:flutter_fingerprint/flutter_fingerprint.dart';
-import 'package:flutter_keychain/flutter_keychain.dart';
+// import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 /// app信息管理类
@@ -52,14 +54,20 @@ class AppInfoManager {
     if (appImeiKey != null && appImeiKey.isNotEmpty) _appImeiKey = appImeiKey;
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      _mode = DeviceMode.transform(iosInfo.utsname.machine ?? "") ?? "";
-      _systemVersion = iosInfo.systemVersion ?? "";
-    } else if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      _mode = androidInfo.model ?? "";
-      _systemVersion = androidInfo.version.release ?? "";
+    if(kIsWeb){
+      WebBrowserInfo info = await deviceInfo.webBrowserInfo;
+      _mode = info.browserName.name ?? "";
+      _systemVersion = info.appVersion ?? "";
+    } else {
+      if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        _mode = DeviceMode.transform(iosInfo.utsname.machine ?? "") ?? "";
+        _systemVersion = iosInfo.systemVersion ?? "";
+      } else if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        _mode = androidInfo.model ?? "";
+        _systemVersion = androidInfo.version.release ?? "";
+      }
     }
     _versionCode = packageInfo.buildNumber;
     _version = packageInfo.version;
@@ -74,7 +82,8 @@ class AppInfoManager {
       // _imei = await FlutterFingerprint.getDeviceId() ?? imeiNewBuilder();
       // if (_imei.length <= 10) _imei = imeiNewBuilder();
       _imei = imeiNewBuilder();
-      FlutterKeychain.put(key: _imeiKey, value: imei);
+      const FlutterSecureStorage().write(key: _imeiKey, value: imei);
+      // FlutterKeychain.put(key: _imeiKey, value: imei);
     }
   }
 
@@ -83,14 +92,16 @@ class AppInfoManager {
     _appImei = await _getKeychainImei(_appImeiKey);
     if (_appImei.length <= 10) {
       _appImei = imeiNewBuilder();
-      FlutterKeychain.put(key: _appImeiKey, value: _appImei);
+      const FlutterSecureStorage().write(key: _imeiKey, value: imei);
+
+      // FlutterKeychain.put(key: _appImeiKey, value: _appImei);
     }
   }
 
   /// 获取存在keychain中的imei
   Future<String> _getKeychainImei(String key) async {
     try {
-      var content = await FlutterKeychain.get(key: key);
+      var content = await const FlutterSecureStorage().read(key: _imeiKey);
       if (content != null && content.isNotEmpty) {
         content = content.replaceAll("\n", "");
         return content.toLowerCase();

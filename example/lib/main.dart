@@ -1,5 +1,6 @@
 import 'package:ad_cache/ad_cache.dart';
 import 'package:ad_cache/db/db_manager.dart';
+import 'package:ad_global/app_info.dart';
 import 'package:ad_mvc/ad_mvc.dart';
 import 'package:ad_network/ad_network.dart';
 import 'package:ad_plugins/cache_test/cache_sp_page.dart';
@@ -21,7 +22,7 @@ void main() async {
 
   /// 初始偏好缓存模块
   await SpManager.init();
-
+  await AppInfoManager().initInfo();
   // / 初始化数据库模块
   // await DBManager.init();
 

@@ -17,7 +17,8 @@ dependencies:
   screenshot_callback:
     git:
       url: https://github.com/windows7lake/flutter_screenshot_callback.git
-  flutter_keychain: 2.4.0
+#  flutter_keychain: 2.4.0
+  flutter_secure_storage: 8.0.0
 #  flutter_fingerprint:
 #    version: ^0.0.1
 #    hosted:
