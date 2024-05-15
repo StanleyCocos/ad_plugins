@@ -58,10 +58,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_easyloading
-      sha256: "9b43cf38ef9fddcd0fd1b7821ea9d80b494484e3522383b76e7bf6da67ebf8b9"
+      sha256: ba21a3c883544e582f9cc455a4a0907556714e1e9cf0eababfcb600da191d17c
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.5"
   flutter_easyrefresh:
     dependency: "direct main"
     description:
