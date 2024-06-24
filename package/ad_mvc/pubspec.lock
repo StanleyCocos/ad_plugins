@@ -4,16 +4,20 @@ packages:
   ad_network:
     dependency: "direct main"
     description:
-      path: "../ad_network"
-      relative: true
-    source: path
+      path: "package/ad_network"
+      ref: HEAD
+      resolved-ref: "4699105f2e3f8f764c3226a6cac99ca51ec01dfa"
+      url: "https://github.com/StanleyCocos/ad_plugins.git"
+    source: git
     version: "0.0.1"
   ad_route:
     dependency: "direct main"
     description:
-      path: "../ad_route"
-      relative: true
-    source: path
+      path: "package/ad_route"
+      ref: HEAD
+      resolved-ref: "4699105f2e3f8f764c3226a6cac99ca51ec01dfa"
+      url: "https://github.com/StanleyCocos/ad_plugins.git"
+    source: git
     version: "0.0.1"
   async:
     dependency: transitive
