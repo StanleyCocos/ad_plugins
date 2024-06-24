@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:io';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'http_request_rear_interceptor.dart';
@@ -56,8 +55,8 @@ class HttpRequest {
       }
       _rearInterceptor = setting.rearInterceptor;
       _extra = setting.extra ?? OptionsExtra();
-      options.connectTimeout = setting.connectTimeOut * 1000;
-      options.receiveTimeout = setting.receiveTimeOut * 1000;
+      options.connectTimeout = Duration(seconds: setting.connectTimeOut);
+      options.receiveTimeout = Duration(seconds: setting.receiveTimeOut);
       options.baseUrl = setting.baseUrl;
       options.contentType = setting.contentType;
       _client = Dio(options);
@@ -65,16 +64,16 @@ class HttpRequest {
         _client!.interceptors.add(interceptor);
       });
 
-      if (kDebugMode && setting.delegateHost != null && setting.delegateHost!.isNotEmpty) {
-        (_client!.httpClientAdapter as DefaultHttpClientAdapter)
-            .onHttpClientCreate = (client) {
-          client.findProxy = (url) {
-            return "PROXY ${setting.delegateHost}";
-          };
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
-        };
-      }
+      // if (kDebugMode && setting.delegateHost != null && setting.delegateHost!.isNotEmpty) {
+      //   (_client!.httpClientAdapter as DefaultHttpClientAdapter)
+      //       .onHttpClientCreate = (client) {
+      //     client.findProxy = (url) {
+      //       return "PROXY ${setting.delegateHost}";
+      //     };
+      //     client.badCertificateCallback =
+      //         (X509Certificate cert, String host, int port) => true;
+      //   };
+      // }
     }
   }
 

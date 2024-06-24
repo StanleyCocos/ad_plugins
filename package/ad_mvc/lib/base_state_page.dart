@@ -9,8 +9,7 @@ import 'base_controller.dart';
 import 'base_state_widget.dart';
 
 abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
-    extends State<T> implements PageInterface, BaseOverrideStatePage<C>{
-
+    extends State<T> implements PageInterface, BaseOverrideStatePage<C> {
   @override
   void initState() {
     controller.initLoad();
@@ -33,6 +32,21 @@ abstract class BasePageState<T extends StatefulWidget, C extends BaseController>
 
   /// 渲染视图
   Widget get renderLayout {
+    // return ChangeNotifierProvider.value(
+    //   value: controller,
+    //   child: GestureDetector(
+    //     onTap: controller.onScreenClick,
+    //     child: Scaffold(
+    //       backgroundColor: backgroundColor,
+    //       extendBodyBehindAppBar: extendBodyBehindAppBar,
+    //       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+    //       appBar: navigation as PreferredSizeWidget?,
+    //       bottomNavigationBar: bottomNavigation,
+    //       body: body,
+    //     ),
+    //   ),
+    // );
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: style,
       child: ChangeNotifierProvider.value(

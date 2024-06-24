@@ -1,9 +1,8 @@
+import 'package:ad_mvc/ad_mvc.dart';
+import 'package:ad_mvc/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
-import 'base.dart';
-import 'base_model.dart';
 
 
 abstract class BaseController<T extends BaseModel> extends ChangeNotifier
@@ -81,7 +80,7 @@ extension Common on BaseController{
   /// 获取页面状态
   PageStateType get switchState {
     if (content) {
-      if(isLoadFirst) isLoadFirst = false;
+      if (isLoadFirst) isLoadFirst = false;
       return PageStateType.content;
     }
     if (loading) {
@@ -125,26 +124,19 @@ extension Route on BaseController {
   /// @return Future<Object?>
   /// @updateTime 2022/1/27 10:25 上午
   /// @author 10456
-  Future<dynamic>? push(
-      Widget page, {
-        Object? arguments,
-        bool isReplace = false,
-        Transition? type,
-        bool isRemoveUntil = false,
-      }) {
-    if(isReplace){
-      return Get.off(page, arguments: arguments, transition: type);
+  Future<dynamic>? push(Widget page, {
+    dynamic arguments,
+    bool isReplace = false,
+    Transition? type,
+    bool isRemoveUntil = false,
+    String? routeName,
+  }) {
+    String? route = Util.getRouteName(page.runtimeType.toString(), routeName, arguments);
+    if (isReplace) {
+      return Get.off(page, routeName: route, arguments: arguments, transition: type);
     } else {
-      return Get.to(page, arguments: arguments, transition: type);
+      return Get.to(page,  routeName: route, arguments: arguments, transition: type);
     }
-
-    // return RouteManager().pushPage(
-    //   page,
-    //   arguments: arguments,
-    //   isReplace: isReplace,
-    //   isRemoveUntil: isRemoveUntil,
-    //   type: type,
-    // );
   }
 
   /// @title pop

@@ -51,10 +51,6 @@ void main() async {
   MvcManager().init(
     /// 状态视图拦截器 (加载视图，空视图，错误视图)
     interceptor: MyStateInterceptor(),
-
-    /// 给列表页上拉加载 下拉刷新使用 后端接口分页数据的key
-    page: "page",
-    pageSize: "size",
   );
 
   runApp(const MyApp());
